@@ -1,18 +1,29 @@
 <!DOCTYPE html>
-<html lang="eng">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EASTCSO – Eastern Africa Statistical Training Centre Students Organisation</title>
-  <meta name="description" content="Official website of EASTCSO – Eastern Africa Statistical Training Centre Students Organisation. 2025/2026." />
+  <meta name="description" content="Official website of EASTCSO – Eastern Africa Statistical Training Centre Students Organisation, Dar es Salaam. News, events, student services and leadership for the 2025/2026 academic year." />
+  <meta name="theme-color" content="#0A1628" />
+  <link rel="icon" href="images/logo.jpeg" />
+
+  <!-- Social sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="EASTCSO – Serving Students Through Students" />
+  <meta property="og:description" content="The official students organisation of the Eastern Africa Statistical Training Centre (EASTC), Dar es Salaam. News, events, services and leadership." />
+  <meta property="og:image" content="images/pamoja2.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="JavaScript" href="C:C:\Users\USER\Documents\eastcso-project\home.js/>
-  <link rel="stylesheet" href="C:\Users\USER\Documents\eastcso-project\style.css/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 </head>
 <body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
 
 <!-- ============================================================
      SITE LAYOUT WRAPPER
@@ -24,34 +35,32 @@
        ============================================================ -->
   <header class="site-header">
     <div class="top-bar">
-      📢 "Serving Students Through Students" — EASTCSO 2025/2026 | Submission Deadline: 30th June, 2026
+      <span class="top-bar-motto">"Serving Students Through Students" — EASTCSO 2025/2026</span>
+      <span class="top-bar-next" id="topBarNext"></span>
     </div>
     <div class="header-inner">
       <!-- Logo -->
-      <div class="logo-area">
-        <img src="images/logo.jpeg" alt="EASTCSO logo" class="logo-icon" style="object-fit:contain;background:none;padding:2px;"/>
-        <div class="logo-text">
-          <div class="org-name">EASTCSO</div>
-          <div class="org-sub">Students Organisation 2025/2026</div>
-        </div>
-      </div>
+      <a class="logo-area" href="#/home" aria-label="EASTCSO home">
+        <img src="images/logo.jpeg" alt="EASTCSO logo" class="logo-icon" width="52" height="52" />
+        <span class="logo-text">
+          <span class="org-name">EASTCSO</span>
+          <span class="org-sub">Students Organisation 2025/2026</span>
+        </span>
+      </a>
 
       <!-- Main Navigation -->
-      <nav class="main-nav" id="mainNav">
-        <a class="nav-link active" data-page="home" onclick="navigateTo('home')">🏠 Home</a>
-        <a class="nav-link" data-page="about" onclick="navigateTo('about')">ℹ️ About</a>
-        <a class="nav-link" data-page="leaders" onclick="navigateTo('leaders')">👥 Leaders</a>
-        <a class="nav-link" data-page="events" onclick="navigateTo('events')">📅 Events</a>
-        <a class="nav-link" data-page="services" onclick="navigateTo('services')">🎓 Services</a>
-        <a class="nav-link" data-page="gallery" onclick="navigateTo('gallery')">🖼️ Gallery</a>
-        <a class="nav-link" data-page="announcements" onclick="navigateTo('announcements')">📋 Announcements</a>
-        <a class="nav-link" data-page="contact" onclick="navigateTo('contact')">📞 Contact</a>
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <a class="nav-link active" data-page="home" href="#/home" aria-current="page">Home</a>
+        <a class="nav-link" data-page="about" href="#/about">About</a>
+        <a class="nav-link" data-page="events" href="#/events">Events</a>
+        <a class="nav-link" data-page="services" href="#/services">Services</a>
+        <a class="nav-link" data-page="contact" href="#/contact">Contact</a>
       </nav>
 
-      <a class="header-cta" onclick="navigateTo('contact')">Join Us</a>
+      <a class="header-cta" href="#/contact">Join Us</a>
 
       <!-- Mobile Toggle -->
-      <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Toggle menu">
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -60,57 +69,57 @@
   <!-- ============================================================
        MAIN CONTENT
        ============================================================ -->
-  <main>
+  <main id="main-content">
 
     <!-- ==================== HOME PAGE ==================== -->
     <section class="page-section active" id="page-home">
 
-      <!-- Hero Slideshow -->
+      <!-- 1. HERO SLIDESHOW -->
       <div class="hero-slideshow">
         <div class="slide active" id="slide-0">
-          <img src="images/pamoja2.jpg" alt="EASTCSO Events" />
+          <img src="images/pamoja2.jpg" alt="EASTCSO students gathered on campus" />
           <div class="slide-content">
-            <span class="slide-label">✦ Welcome to EASTCSO 2025/2026 ✦</span>
+            <span class="slide-label">Welcome to EASTCSO 2025/2026</span>
             <h1 class="slide-title">Serving <span>Students</span><br/>Through Students</h1>
             <p class="slide-desc">The official Students Organisation of the Eastern Africa Statistical Training Centre — coordinating activities, events and leadership for all students.</p>
-            <a class="slide-btn" onclick="navigateTo('about')">Discover More →</a>
+            <a class="slide-btn" href="#/about">Discover More <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
           </div>
         </div>
         <div class="slide" id="slide-1">
-          <img src="images/slide2.jpg" alt="Night of Awards" />
+          <img src="images/slide2.jpg" alt="EASTC students at an academic event" />
           <div class="slide-content">
-            <span class="slide-label">✦ EASTCSO Wasomi League 2025/26 ✦</span>
-            <h1 class="slide-title"><span>Night of Awards</span><br/>EASTC Wasomi League</h1>
-            <p class="slide-desc">Burudani Mbalimbali • Zitakuwepo — Friday 01 May 2026 at 6:00 PM, Venue: Temp Class.</p>
-            <a class="slide-btn" onclick="navigateTo('events')">View Events →</a>
+            <span class="slide-label">Academic Calendar</span>
+            <h2 class="slide-title">Final Examinations<br/><span>3 – 17 August 2026</span></h2>
+            <p class="slide-desc">Second Semester Final Examinations for NTA 4–8 are around the corner. Reading week starts 27 July — plan your revision and check the timetable early.</p>
+            <a class="slide-btn" href="#/events">View Calendar <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
           </div>
         </div>
         <div class="slide" id="slide-2">
-          <img src="images/slide3.jpg" alt="Awards Night" />
+          <img src="images/slide3.jpg" alt="EASTC graduation celebration" />
           <div class="slide-content">
-            <span class="slide-label">✦ Sports & Entertainment ✦</span>
-            <h1 class="slide-title">EASTC Wasomi<br/><span>League Champions</span></h1>
-            <p class="slide-desc">Celebrating excellence in sports — Bingwa wa Mpira wa Miguu, Mchezaji Bora (MVP), Golikipa Bora na zaidi.</p>
-            <a class="slide-btn" onclick="navigateTo('events')">View All Events →</a>
+            <span class="slide-label">Save the Date</span>
+            <h2 class="slide-title">12th EASTC<br/><span>Graduation Ceremony</span></h2>
+            <p class="slide-desc">Convocation, AGM and the 12th Graduation Ceremony arrive this November. Preparations begin in September — follow the events page for updates.</p>
+            <a class="slide-btn" href="#/events">See All Events <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
           </div>
         </div>
         <div class="slide" id="slide-3">
-          <img src="images/slide5.jpg" alt="Student Activities" />
+          <img src="images/slide5.jpg" alt="EASTCSO members at a group activity" />
           <div class="slide-content">
-            <span class="slide-label">✦ Student Activities ✦</span>
-            <h1 class="slide-title">Achieving<br/><span>Excellence</span> Together</h1>
+            <span class="slide-label">Student Community</span>
+            <h2 class="slide-title">Achieving<br/><span>Excellence</span> Together</h2>
             <p class="slide-desc">Join the EASTCSO community — participate in events, leadership programs, and student services designed for your success.</p>
-            <a class="slide-btn" onclick="navigateTo('services')">Our Services →</a>
+            <a class="slide-btn" href="#/services">Our Services <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
           </div>
         </div>
 
         <!-- Controls -->
-        <button class="slide-prev" onclick="changeSlide(-1)">&#8249;</button>
-        <button class="slide-next" onclick="changeSlide(1)">&#8250;</button>
+        <button class="slide-prev" type="button" aria-label="Previous slide"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+        <button class="slide-next" type="button" aria-label="Next slide"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
         <div class="slide-indicators" id="slideIndicators"></div>
       </div>
 
-      <!-- Stats Bar -->
+      <!-- 2. STATS BAR -->
       <div class="stats-bar">
         <div class="stats-inner">
           <div class="stat-item">
@@ -132,156 +141,128 @@
         </div>
       </div>
 
-      <!-- Main Content Grid -->
-      <div class="content-grid">
-        <!-- LEFT: News -->
-        <div class="main-content">
-          <p class="section-eyebrow">Latest Updates</p>
-          <h2 class="section-title">News &amp; Announcements</h2>
-
-          <div class="news-grid">
-            <div class="news-card">
-              <div class="news-card-img">
-                <img src="images/QW.jpeg" alt="President Speech" />
-              </div>
-              <div class="news-card-body">
-                <span class="news-card-tag">Leadership</span>
-                <h3 class="news-card-title">Rais Mario Macha Azungumza na Wanafunzi wa EASTC</h3>
-                <p class="news-card-desc">Rais wa EASTCSO Macha Mario alitoa hotuba ya kuhamasisha wanafunzi kujishughulisha na shughuli za kitaaluma na kijamii.</p>
-                <div class="news-card-meta">
-                  <span class="news-card-date">June 2026</span>
-                  <span class="news-read-more" onclick="navigateTo('about')">Read More →</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="news-card">
-              <div class="news-card-img">
-                <img src="images/slide5.jpg" alt="EASTCSO Group" />
-              </div>
-              <div class="news-card-body">
-                <span class="news-card-tag">Activity</span>
-                <h3 class="news-card-title">EASTCSO Executive Watembelea Taasisi Mbalimbali</h3>
-                <p class="news-card-desc">Wajumbe wa Serikali ya Wanafunzi walifanya ziara ya mafunzo katika taasisi mbalimbali za takwimu nchini Tanzania.</p>
-                <div class="news-card-meta">
-                  <span class="news-card-date">May 2026</span>
-                  <span class="news-read-more" onclick="navigateTo('gallery')">View Gallery →</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="news-card">
-              <div class="news-card-img">
-                <img src="images/pic3.png" alt="Wasomi League" />
-              </div>
-              <div class="news-card-body">
-                <span class="news-card-tag">Sports</span>
-                <h3 class="news-card-title">EASTC Wasomi League 2025/26 – Night of Awards</h3>
-                <p class="news-card-desc">Sherehe ya tuzo za Ligi ya Mpira wa Miguu ya EASTC iliyofanyika tarehe 01 May 2026 — tukio zuri la burudani na tuzo.</p>
-                <div class="news-card-meta">
-                  <span class="news-card-date">May 2026</span>
-                  <span class="news-read-more" onclick="navigateTo('events')">View Events →</span>
-                </div>
-              </div>
-            </div>
+      <!-- 3. WHO WE ARE -->
+      <div class="home-block">
+        <div class="home-intro-inner">
+          <div>
+            <p class="section-eyebrow">Who We Are</p>
+            <h2 class="home-intro-title">EASTCSO – Achieving Excellence</h2>
+            <p class="home-intro-text">The EASTC Students Organisation coordinates student activities, events, announcements, leadership information, and communication between students and the administration. Built like a mini-government — a President, cabinet and nine ministries — it exists to make sure every student voice is heard.</p>
+            <a class="btn-gold" href="#/about">Learn More <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
           </div>
-
-          <!-- About blurb -->
-          <div style="background:var(--navy);border-radius:12px;padding:32px;margin-top:8px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
-            <div style="flex:1;min-width:220px;">
-              <p class="section-eyebrow" style="color:var(--gold-light);">Who We Are</p>
-              <h3 style="font-family:var(--font-display);font-size:1.4rem;color:#fff;margin-bottom:12px;font-weight:700;">EASTCSO – Achieving Excellence</h3>
-              <p style="color:rgba(255,255,255,0.7);font-size:0.92rem;line-height:1.8;margin-bottom:20px;">The EASTC Students Organisation coordinates student activities, events, announcements, leadership information, and communication between students and the administration.</p>
-              <a class="btn-gold" onclick="navigateTo('about')" style="cursor:pointer;">Learn More →</a>
-            </div>
-            <div style="flex-shrink:0;">
-              <img src="images/slide4.jpeg" alt="EASTCSO Org Chart" style="width:280px;border-radius:8px;border:3px solid var(--gold);" />
-            </div>
+          <div class="home-intro-img">
+            <img src="images/slide4.jpeg" alt="EASTCSO members" loading="lazy" />
           </div>
         </div>
+      </div>
 
-        <!-- RIGHT: Sidebar -->
-        <aside class="sidebar">
-          <!-- Announcements -->
-          <div class="sidebar-card">
-            <h3 class="sidebar-card-title"><span class="icon">📢</span> Official Notices</h3>
-            <div class="announcement-list">
-              <div class="announcement-item">
-                <div class="announcement-date">30 Jun 2026</div>
-                <p class="announcement-text">Mwisho wa kuwasilisha mradi wa Web Design – Submission Deadline leo!</p>
-              </div>
-              <div class="announcement-item">
-                <div class="announcement-date">Jul 2026 – Week 1</div>
-                <p class="announcement-text">Uwasilishaji wa vikundi (Group Presentations) utafanyika wiki ya kwanza ya Julai 2026.</p>
-              </div>
-              <div class="announcement-item">
-                <div class="announcement-date">01 May 2026</div>
-                <p class="announcement-text">Night of Awards – EASTC Wasomi League 2025/26, saa 12 jioni, Temp Class.</p>
-              </div>
-              <div class="announcement-item">
-                <div class="announcement-date">2025/2026</div>
-                <p class="announcement-text">Tathmini itajumuisha alama za kikundi NA alama za mtu binafsi (group & individual scores).</p>
+      <!-- 4. LATEST NEWS & NOTICES -->
+      <div class="home-block home-block--tight">
+        <p class="section-eyebrow">Latest Updates</p>
+        <h2 class="section-title">News &amp; Updates</h2>
+
+        <div class="news-grid">
+          <article class="news-card">
+            <div class="news-card-img">
+              <img src="images/QW.jpeg" alt="President Mario Macha addressing students" loading="lazy" />
+            </div>
+            <div class="news-card-body">
+              <span class="news-card-tag">Leadership</span>
+              <h3 class="news-card-title" lang="sw">Rais Mario Macha Azungumza na Wanafunzi wa EASTC</h3>
+              <p class="news-card-desc">President Mario Macha delivered a motivational address encouraging students to engage fully in academic and community life.</p>
+              <div class="news-card-meta">
+                <span class="news-card-date">June 2026</span>
+                <a class="news-read-more" href="#/leaders">Read More <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
               </div>
             </div>
-          </div>
+          </article>
 
-          <!-- Quick Links -->
-          <div class="sidebar-card">
-            <h3 class="sidebar-card-title"><span class="icon">🔗</span> Quick Links</h3>
-            <div class="quick-links">
-              <div class="quick-link" onclick="navigateTo('leaders')"><span class="ql-icon">👑</span> Executive Leaders</div>
-              <div class="quick-link" onclick="navigateTo('events')"><span class="ql-icon">📅</span> Upcoming Events</div>
-              <div class="quick-link" onclick="navigateTo('services')"><span class="ql-icon">🎓</span> Student Services</div>
-              <div class="quick-link" onclick="navigateTo('announcements')"><span class="ql-icon">📋</span> Manage Notices (CRUD)</div>
-              <div class="quick-link" onclick="navigateTo('gallery')"><span class="ql-icon">🖼️</span> Photo Gallery</div>
-              <div class="quick-link" onclick="navigateTo('contact')"><span class="ql-icon">📞</span> Contact Us</div>
+          <article class="news-card">
+            <div class="news-card-img">
+              <img src="images/slide5.jpg" alt="EASTCSO delegation on an institutional visit" loading="lazy" />
             </div>
-          </div>
-
-          <!-- Upcoming Events mini -->
-          <div class="sidebar-card">
-            <h3 class="sidebar-card-title"><span class="icon">📅</span> Upcoming Events</h3>
-            <div class="event-list">
-              <div class="event-item">
-                <div class="event-date-box">
-                  <div class="event-day">30</div>
-                  <div class="event-month">Jun</div>
-                </div>
-                <div>
-                  <div class="event-info-title">Web Design Project Deadline</div>
-                  <div class="event-info-loc">📍 EASTC – Moodle Submission</div>
-                </div>
-              </div>
-              <div class="event-item">
-                <div class="event-date-box">
-                  <div class="event-day">07</div>
-                  <div class="event-month">Jul</div>
-                </div>
-                <div>
-                  <div class="event-info-title">Group Presentations Week</div>
-                  <div class="event-info-loc">📍 EASTC Classrooms</div>
-                </div>
-              </div>
-              <div class="event-item">
-                <div class="event-date-box">
-                  <div class="event-day">01</div>
-                  <div class="event-month">May</div>
-                </div>
-                <div>
-                  <div class="event-info-title">Wasomi League Night of Awards</div>
-                  <div class="event-info-loc">📍 Temp Class – 6:00 PM</div>
-                </div>
+            <div class="news-card-body">
+              <span class="news-card-tag">Activity</span>
+              <h3 class="news-card-title" lang="sw">EASTCSO Executive Watembelea Taasisi Mbalimbali</h3>
+              <p class="news-card-desc">Members of the student government completed a study tour of statistical institutions across Tanzania.</p>
+              <div class="news-card-meta">
+                <span class="news-card-date">May 2026</span>
+                <a class="news-read-more" href="#/gallery">View Gallery <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
               </div>
             </div>
+          </article>
+
+          <article class="news-card">
+            <div class="news-card-img">
+              <img src="images/pic3.png" alt="Wasomi League award winners on stage" loading="lazy" />
+            </div>
+            <div class="news-card-body">
+              <span class="news-card-tag">Sports</span>
+              <h3 class="news-card-title">EASTCSO Wasomi League 2025/26 – Night of Awards</h3>
+              <p class="news-card-desc">The Wasomi League football awards ceremony, held on 1 May 2026, celebrated the season's champions and best players.</p>
+              <div class="news-card-meta">
+                <span class="news-card-date">May 2026</span>
+                <a class="news-read-more" href="#/events">View Events <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="notices-strip">
+          <div class="notices-strip-head">
+            <h3 class="notices-strip-title"><i class="bi bi-megaphone" aria-hidden="true"></i> Official Notices</h3>
+            <a class="notices-strip-link" href="#/announcements">All notices <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
           </div>
-        </aside>
+          <div class="announcement-list" id="homeNotices"></div>
+        </div>
+      </div>
+
+      <!-- 5. UPCOMING EVENTS -->
+      <div class="home-block home-block--tight">
+        <p class="section-eyebrow">Mark Your Calendar</p>
+        <h2 class="section-title">Upcoming at EASTC</h2>
+        <div class="home-events-list" id="homeEvents"></div>
+        <div class="home-events-actions">
+          <a class="btn-gold" href="#/events"><i class="bi bi-calendar-event" aria-hidden="true"></i> Full Calendar</a>
+          <a class="btn-outline-gold" href="almanac.pdf" download><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> Academic Almanac (PDF)</a>
+        </div>
+      </div>
+
+      <!-- 6. GALLERY PREVIEW + JOIN CTA -->
+      <div class="home-block">
+        <p class="section-eyebrow">Our Moments</p>
+        <h2 class="section-title">Life at EASTCSO</h2>
+        <div class="home-gallery-grid">
+          <a class="home-gallery-tile" href="#/gallery">
+            <img src="images/pamoja2.jpg" alt="EASTCSO group photo" loading="lazy" />
+            <span class="home-gallery-tile-overlay"><i class="bi bi-images" aria-hidden="true"></i> View gallery</span>
+          </a>
+          <a class="home-gallery-tile" href="#/gallery">
+            <img src="images/pic2.jpg" alt="Night of Awards celebration" loading="lazy" />
+            <span class="home-gallery-tile-overlay"><i class="bi bi-images" aria-hidden="true"></i> View gallery</span>
+          </a>
+          <a class="home-gallery-tile" href="#/gallery">
+            <img src="images/slide4.jpeg" alt="Wasomi League champions" loading="lazy" />
+            <span class="home-gallery-tile-overlay"><i class="bi bi-images" aria-hidden="true"></i> View gallery</span>
+          </a>
+          <a class="home-gallery-tile" href="#/gallery">
+            <img src="images/pres.jpg" alt="EASTCSO president at an official event" loading="lazy" />
+            <span class="home-gallery-tile-overlay"><i class="bi bi-images" aria-hidden="true"></i> View gallery</span>
+          </a>
+        </div>
+
+        <div class="join-band">
+          <h2 class="join-band-title">Become Part of EASTCSO</h2>
+          <p class="join-band-text">Every EASTC student has a place in the organisation — join committees, volunteer at events, or stand for leadership. Serving Students Through Students.</p>
+          <a class="btn-gold" href="#/contact">Join Us <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+        </div>
       </div>
     </section>
 
     <!-- ==================== ABOUT PAGE ==================== -->
     <section class="page-section" id="page-about">
       <div class="page-hero">
-        <p class="page-hero-label">✦ Who We Are ✦</p>
+        <p class="page-hero-label">Who We Are</p>
         <h1 class="page-hero-title">About EASTCSO</h1>
         <p class="page-hero-subtitle">Serving students through students — coordinating activities, leadership, and student welfare at EASTC.</p>
       </div>
@@ -294,13 +275,13 @@
             <p class="lead">EASTCSO (Eastern Africa Statistical Training Centre Students Organisation) is the special organisation established in order to deal with students affairs directly at EASTC.</p>
             <p>The organisation was established to bridge the gap between students and administration, ensuring that student voices are heard and student welfare is prioritised. EASTCSO coordinates academic activities, social events, sports, and welfare programs for all enrolled students at EASTC.</p>
             <p>Under the motto <strong>"Serving Students Through Students,"</strong> the organisation strives to create an environment where every student can thrive academically and socially. The 2025/2026 executive organ is led by President Mario Macha and a dedicated team of ministers and secretaries spanning all key areas of student life.</p>
-            <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
-              <a class="btn-gold" onclick="navigateTo('leaders')" style="cursor:pointer;">Meet Our Leaders</a>
-              <a class="btn-primary" onclick="navigateTo('contact')" style="cursor:pointer;background:var(--navy);color:#fff;padding:12px 28px;border-radius:6px;font-family:var(--font-label);font-size:0.88rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;transition:var(--transition);">Contact Us</a>
+            <div class="about-ctas">
+              <a class="btn-gold" href="#/leaders"><i class="bi bi-people" aria-hidden="true"></i> Meet Our Leaders</a>
+              <a class="btn-navy" href="#/contact">Contact Us</a>
             </div>
           </div>
           <div class="about-img">
-            <img src="images/slide4.jpeg" alt="EASTCSO Members" />
+            <img src="images/slide4.jpeg" alt="EASTCSO members" loading="lazy" />
           </div>
         </div>
 
@@ -309,17 +290,17 @@
         <h2 class="section-title">Our Mission, Vision &amp; Values</h2>
         <div class="values-grid">
           <div class="value-card">
-            <span class="value-icon">🎯</span>
+            <span class="value-icon"><i class="bi bi-bullseye" aria-hidden="true"></i></span>
             <div class="value-title">Our Mission</div>
             <p class="value-text">To coordinate and support student activities, events, announcements, and communication between students and EASTC administration for the benefit of all learners.</p>
           </div>
           <div class="value-card">
-            <span class="value-icon">🌟</span>
+            <span class="value-icon"><i class="bi bi-star" aria-hidden="true"></i></span>
             <div class="value-title">Our Vision</div>
             <p class="value-text">To be a leading student organisation in Eastern Africa that empowers students through excellent leadership, welfare services, and academic support programs.</p>
           </div>
           <div class="value-card">
-            <span class="value-icon">🤝</span>
+            <span class="value-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
             <div class="value-title">Core Values</div>
             <p class="value-text">Integrity, excellence, inclusivity, transparency, and service — these are the values that guide every decision and activity of EASTCSO.</p>
           </div>
@@ -328,41 +309,41 @@
         <!-- Ministries Table -->
         <p class="section-eyebrow">Our Structure</p>
         <h2 class="section-title">Government Ministries</h2>
-        <div style="background:var(--white);border-radius:12px;padding:28px;box-shadow:var(--shadow-sm);overflow-x:auto;margin-bottom:48px;">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Ministry</th>
-                <th>Minister</th>
-                <th>Deputy Minister</th>
-                <th>Secretary</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>1</td><td>President's Office</td><td>Brighton John</td><td>Herieth Onesmo</td><td>—</td></tr>
-              <tr><td>2</td><td>Constitution, Justice &amp; Legal Affairs</td><td>Anuwary Mwitike</td><td>—</td><td>Asha Abdallah</td></tr>
-              <tr><td>3</td><td>Finance and Planning</td><td>Fadhili Jefta</td><td>—</td><td>Caroline Victor</td></tr>
-              <tr><td>4</td><td>Health and Social Welfare</td><td>Khadija Tafawa</td><td>Bright Mtui</td><td>—</td></tr>
-              <tr><td>5</td><td>Foreign Affairs</td><td>Victoria Kasapila</td><td>—</td><td>Zainab Ali</td></tr>
-              <tr><td>6</td><td>Sports and Entertainments</td><td>Ahmad Kirusha</td><td>—</td><td>Selemani Maulidi</td></tr>
-              <tr><td>7</td><td>Education and Statistics</td><td>Benson Mushi</td><td>Stephano Kalolo</td><td>Revocatus Wilson</td></tr>
-              <tr><td>8</td><td>Home Affairs</td><td>Flavian Mapunda</td><td>—</td><td>Ally</td></tr>
-              <tr><td>9</td><td>Transport and Communication</td><td>Jamali Charles</td><td>—</td><td>Leonard Damas</td></tr>
-            </tbody>
-          </table>
+        <div class="table-card">
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Ministry</th>
+                  <th>Minister</th>
+                  <th>Deputy Minister</th>
+                  <th>Secretary</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td>President's Office</td><td>Brighton John</td><td>Herieth Onesmo</td><td>—</td></tr>
+                <tr><td>2</td><td>Constitution, Justice &amp; Legal Affairs</td><td>Anuwary Mwitike</td><td>—</td><td>Asha Abdallah</td></tr>
+                <tr><td>3</td><td>Finance and Planning</td><td>Fadhili Jefta</td><td>—</td><td>Caroline Victor</td></tr>
+                <tr><td>4</td><td>Health and Social Welfare</td><td>Khadija Tafawa</td><td>Bright Mtui</td><td>—</td></tr>
+                <tr><td>5</td><td>Foreign Affairs</td><td>Victoria Kasapila</td><td>—</td><td>Zainab Ali</td></tr>
+                <tr><td>6</td><td>Sports and Entertainments</td><td>Ahmad Kirusha</td><td>—</td><td>Selemani Maulidi</td></tr>
+                <tr><td>7</td><td>Education and Statistics</td><td>Benson Mushi</td><td>Stephano Kalolo</td><td>Revocatus Wilson</td></tr>
+                <tr><td>8</td><td>Home Affairs</td><td>Flavian Mapunda</td><td>—</td><td>Ally</td></tr>
+                <tr><td>9</td><td>Transport and Communication</td><td>Jamali Charles</td><td>—</td><td>Leonard Damas</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <div style="margin-bottom:48px;">
-          <img src="images/pamoja4.jpg" alt="EASTCSO Group Photo" style="border-radius:12px;box-shadow:var(--shadow-md);width:100%;" />
-        </div>
+        <img src="images/pamoja4.jpg" alt="EASTCSO group photo" class="about-photo" loading="lazy" />
       </div>
     </section>
 
     <!-- ==================== LEADERS PAGE ==================== -->
     <section class="page-section" id="page-leaders">
       <div class="page-hero">
-        <p class="page-hero-label">✦ Executive Organ 2025/2026 ✦</p>
+        <p class="page-hero-label">Executive Organ 2025/2026</p>
         <h1 class="page-hero-title">Our Leaders</h1>
         <p class="page-hero-subtitle">Meet the dedicated executive team serving the EASTCSO community this academic year.</p>
       </div>
@@ -372,15 +353,15 @@
         <p class="section-eyebrow">Head of State</p>
         <h2 class="section-title">President — EASTCSO</h2>
         <div class="president-card">
-          <div class="president-avatar">👔</div>
+          <img class="president-avatar" src="images/QW.jpeg" alt="President Mario Macha" />
           <div class="president-info">
-            <div class="president-role">✦ President of EASTCSO 2025/2026 ✦</div>
+            <div class="president-role">President of EASTCSO 2025/2026</div>
             <div class="president-name">Mario Macha</div>
             <p class="president-quote">"As your President, I am committed to serving every student with dedication, integrity, and transparency. Together we shall achieve excellence through unity and hard work. Serving Students Through Students!"</p>
             <div class="president-contact">
-              <div class="contact-badge">📞 +255 693 827 599</div>
-              <div class="contact-badge">🏛️ EASTCSO President</div>
-              <div class="contact-badge">📍 EASTC, Dar es Salaam</div>
+              <a class="contact-badge" href="tel:+255693827599"><i class="bi bi-telephone" aria-hidden="true"></i> +255 693 827 599</a>
+              <span class="contact-badge"><i class="bi bi-bank" aria-hidden="true"></i> EASTCSO President</span>
+              <span class="contact-badge"><i class="bi bi-geo-alt" aria-hidden="true"></i> EASTC, Dar es Salaam</span>
             </div>
           </div>
         </div>
@@ -388,27 +369,27 @@
         <!-- Top Leaders Row -->
         <p class="section-eyebrow">Senior Leadership</p>
         <h2 class="section-title">Vice President, Prime Minister &amp; Chief Secretary</h2>
-        <div class="exec-grid" style="grid-template-columns:repeat(3,1fr);max-width:900px;">
-          <div class="exec-card" style="border-top:4px solid var(--gold);">
-            <div class="exec-avatar">👩‍💼</div>
+        <div class="exec-grid exec-grid--senior">
+          <div class="exec-card exec-card--senior">
+            <div class="exec-avatar" aria-hidden="true">NM</div>
             <div class="exec-name">Nesta Msola</div>
             <div class="exec-role">Vice President</div>
             <div class="exec-ministry">Ministry for Constitution, Justice and Legal Affairs</div>
-            <div class="exec-phone">📞 +255 780 480 730</div>
+            <a class="exec-phone" href="tel:+255780480730"><i class="bi bi-telephone" aria-hidden="true"></i> +255 780 480 730</a>
           </div>
-          <div class="exec-card" style="border-top:4px solid var(--gold);">
-            <div class="exec-avatar">👨‍💼</div>
+          <div class="exec-card exec-card--senior">
+            <div class="exec-avatar" aria-hidden="true">TH</div>
             <div class="exec-name">Tumaini Hosea</div>
             <div class="exec-role">Prime Minister</div>
             <div class="exec-ministry">Ministry for President's Office</div>
-            <div class="exec-phone">📞 +255 689 624 944</div>
+            <a class="exec-phone" href="tel:+255689624944"><i class="bi bi-telephone" aria-hidden="true"></i> +255 689 624 944</a>
           </div>
-          <div class="exec-card" style="border-top:4px solid var(--gold);">
-            <div class="exec-avatar">📋</div>
+          <div class="exec-card exec-card--senior">
+            <div class="exec-avatar" aria-hidden="true">SL</div>
             <div class="exec-name">Steven Ladislaus</div>
             <div class="exec-role">Chief Secretary</div>
             <div class="exec-ministry">Ministry for Finance and Planning</div>
-            <div class="exec-phone">📞 +255 715 296 092</div>
+            <a class="exec-phone" href="tel:+255715296092"><i class="bi bi-telephone" aria-hidden="true"></i> +255 715 296 092</a>
           </div>
         </div>
 
@@ -417,146 +398,146 @@
         <h2 class="section-title">Executive Cabinet 2025/2026</h2>
         <div class="exec-grid">
           <div class="exec-card">
-            <div class="exec-avatar">🏛️</div>
+            <div class="exec-avatar" aria-hidden="true">BJ</div>
             <div class="exec-name">Brighton John</div>
             <div class="exec-role">Minister</div>
             <div class="exec-ministry">Ministry for President's Office</div>
-            <div class="exec-phone">📞 +255 769 407 963</div>
+            <a class="exec-phone" href="tel:+255769407963"><i class="bi bi-telephone" aria-hidden="true"></i> +255 769 407 963</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">👩</div>
+            <div class="exec-avatar" aria-hidden="true">HO</div>
             <div class="exec-name">Herieth Onesmo</div>
             <div class="exec-role">D/Minister</div>
             <div class="exec-ministry">Ministry for President's Office</div>
-            <div class="exec-phone">📞 +255 740 614 737</div>
+            <a class="exec-phone" href="tel:+255740614737"><i class="bi bi-telephone" aria-hidden="true"></i> +255 740 614 737</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">⚖️</div>
+            <div class="exec-avatar" aria-hidden="true">AM</div>
             <div class="exec-name">Anuwary Mwitike</div>
             <div class="exec-role">Minister</div>
             <div class="exec-ministry">Constitution, Justice &amp; Legal Affairs</div>
-            <div class="exec-phone">📞 +255 626 008 501</div>
+            <a class="exec-phone" href="tel:+255626008501"><i class="bi bi-telephone" aria-hidden="true"></i> +255 626 008 501</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">👩‍⚖️</div>
+            <div class="exec-avatar" aria-hidden="true">AA</div>
             <div class="exec-name">Asha Abdallah</div>
             <div class="exec-role">Secretary Minister</div>
             <div class="exec-ministry">Constitution, Justice &amp; Legal Affairs</div>
-            <div class="exec-phone">📞 +255 625 908 472</div>
+            <a class="exec-phone" href="tel:+255625908472"><i class="bi bi-telephone" aria-hidden="true"></i> +255 625 908 472</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">💰</div>
+            <div class="exec-avatar" aria-hidden="true">FJ</div>
             <div class="exec-name">Fadhili Jefta</div>
             <div class="exec-role">Minister of Finance</div>
             <div class="exec-ministry">Ministry for Finance and Planning</div>
-            <div class="exec-phone">📞 +255 710 305 537</div>
+            <a class="exec-phone" href="tel:+255710305537"><i class="bi bi-telephone" aria-hidden="true"></i> +255 710 305 537</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">👩‍💰</div>
+            <div class="exec-avatar" aria-hidden="true">CV</div>
             <div class="exec-name">Caroline Victor</div>
             <div class="exec-role">Secretary Minister</div>
             <div class="exec-ministry">Ministry for Finance and Planning</div>
-            <div class="exec-phone">📞 +255 749 530 464</div>
+            <a class="exec-phone" href="tel:+255749530464"><i class="bi bi-telephone" aria-hidden="true"></i> +255 749 530 464</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">🏥</div>
+            <div class="exec-avatar" aria-hidden="true">KT</div>
             <div class="exec-name">Khadija Tafawa</div>
             <div class="exec-role">Minister of Health</div>
             <div class="exec-ministry">Ministry for Health and Social Welfare</div>
-            <div class="exec-phone">📞 +255 616 377 053</div>
+            <a class="exec-phone" href="tel:+255616377053"><i class="bi bi-telephone" aria-hidden="true"></i> +255 616 377 053</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">🩺</div>
+            <div class="exec-avatar" aria-hidden="true">BM</div>
             <div class="exec-name">Bright Mtui</div>
             <div class="exec-role">D/Minister of Health</div>
             <div class="exec-ministry">Ministry for Health and Social Welfare</div>
-            <div class="exec-phone">📞 +255 696 606 266</div>
+            <a class="exec-phone" href="tel:+255696606266"><i class="bi bi-telephone" aria-hidden="true"></i> +255 696 606 266</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">🌍</div>
+            <div class="exec-avatar" aria-hidden="true">VK</div>
             <div class="exec-name">Victoria Kasapila</div>
             <div class="exec-role">Minister of Foreign Affairs</div>
             <div class="exec-ministry">Ministry for Foreign Affairs</div>
-            <div class="exec-phone">📞 +255 748 716 585</div>
+            <a class="exec-phone" href="tel:+255748716585"><i class="bi bi-telephone" aria-hidden="true"></i> +255 748 716 585</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">🌐</div>
+            <div class="exec-avatar" aria-hidden="true">ZA</div>
             <div class="exec-name">Zainab Ali</div>
             <div class="exec-role">Secretary Minister</div>
             <div class="exec-ministry">Ministry for Foreign Affairs</div>
-            <div class="exec-phone">📞 +255 613 073 786</div>
+            <a class="exec-phone" href="tel:+255613073786"><i class="bi bi-telephone" aria-hidden="true"></i> +255 613 073 786</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">⚽</div>
+            <div class="exec-avatar" aria-hidden="true">AK</div>
             <div class="exec-name">Ahmad Kirusha</div>
             <div class="exec-role">Minister of Sports</div>
             <div class="exec-ministry">Ministry for Sports and Entertainments</div>
-            <div class="exec-phone">📞 +255 756 953 296</div>
+            <a class="exec-phone" href="tel:+255756953296"><i class="bi bi-telephone" aria-hidden="true"></i> +255 756 953 296</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">🎭</div>
+            <div class="exec-avatar" aria-hidden="true">SM</div>
             <div class="exec-name">Selemani Maulidi</div>
             <div class="exec-role">Secretary Minister</div>
             <div class="exec-ministry">Ministry for Sports and Entertainments</div>
-            <div class="exec-phone">📞 +255 628 689 782</div>
+            <a class="exec-phone" href="tel:+255628689782"><i class="bi bi-telephone" aria-hidden="true"></i> +255 628 689 782</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">📚</div>
+            <div class="exec-avatar" aria-hidden="true">BM</div>
             <div class="exec-name">Benson Mushi</div>
             <div class="exec-role">Minister of Education</div>
             <div class="exec-ministry">Ministry for Education and Statistics</div>
-            <div class="exec-phone">📞 +255 716 024 322</div>
+            <a class="exec-phone" href="tel:+255716024322"><i class="bi bi-telephone" aria-hidden="true"></i> +255 716 024 322</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">📖</div>
+            <div class="exec-avatar" aria-hidden="true">SK</div>
             <div class="exec-name">Stephano Kalolo</div>
             <div class="exec-role">D/Minister of Education</div>
             <div class="exec-ministry">Ministry for Education and Statistics</div>
-            <div class="exec-phone">📞 +255 773 703 533</div>
+            <a class="exec-phone" href="tel:+255773703533"><i class="bi bi-telephone" aria-hidden="true"></i> +255 773 703 533</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">📊</div>
+            <div class="exec-avatar" aria-hidden="true">RW</div>
             <div class="exec-name">Revocatus Wilson</div>
             <div class="exec-role">Secretary Minister</div>
             <div class="exec-ministry">Ministry for Education and Statistics</div>
-            <div class="exec-phone">📞 +255 616 287 654</div>
+            <a class="exec-phone" href="tel:+255616287654"><i class="bi bi-telephone" aria-hidden="true"></i> +255 616 287 654</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">🏠</div>
+            <div class="exec-avatar" aria-hidden="true">FM</div>
             <div class="exec-name">Flavian Mapunda</div>
             <div class="exec-role">Minister of Home Affairs</div>
             <div class="exec-ministry">Ministry for Home Affairs</div>
-            <div class="exec-phone">📞 +255 622 765 789</div>
+            <a class="exec-phone" href="tel:+255622765789"><i class="bi bi-telephone" aria-hidden="true"></i> +255 622 765 789</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">🔑</div>
+            <div class="exec-avatar" aria-hidden="true">AL</div>
             <div class="exec-name">Ally</div>
             <div class="exec-role">Secretary Minister</div>
             <div class="exec-ministry">Ministry for Home Affairs</div>
-            <div class="exec-phone">📞 +255 657 823 053</div>
+            <a class="exec-phone" href="tel:+255657823053"><i class="bi bi-telephone" aria-hidden="true"></i> +255 657 823 053</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">🚌</div>
+            <div class="exec-avatar" aria-hidden="true">JC</div>
             <div class="exec-name">Jamali Charles</div>
             <div class="exec-role">Minister of Transport</div>
             <div class="exec-ministry">Ministry for Transport and Communication</div>
-            <div class="exec-phone">📞 +255 763 438 429</div>
+            <a class="exec-phone" href="tel:+255763438429"><i class="bi bi-telephone" aria-hidden="true"></i> +255 763 438 429</a>
           </div>
           <div class="exec-card">
-            <div class="exec-avatar">📡</div>
+            <div class="exec-avatar" aria-hidden="true">LD</div>
             <div class="exec-name">Leonard Damas</div>
             <div class="exec-role">Secretary Minister</div>
             <div class="exec-ministry">Ministry for Transport and Communication</div>
-            <div class="exec-phone">📞 +255 621 059 812</div>
+            <a class="exec-phone" href="tel:+255621059812"><i class="bi bi-telephone" aria-hidden="true"></i> +255 621 059 812</a>
           </div>
         </div>
 
         <!-- Official Org Chart -->
         <div class="org-chart-section">
           <p class="section-eyebrow">Official Structure</p>
-          <h2 class="section-title" style="margin-bottom:20px;">Executive Organ Chart 2025/2026</h2>
-          <img src="images/pamoja1.jpg" alt="EASTCSO Executive Organ Chart 2025/2026" />
-          <p style="text-align:center;margin-top:16px;font-style:italic;color:var(--gray-500);font-size:0.88rem;">"Serving Students Through Students" — EASTCSO 2025/2026</p>
+          <h2 class="section-title">Executive Organ 2025/2026</h2>
+          <img src="images/pamoja1.jpg" alt="EASTCSO executive organ group photo 2025/2026" loading="lazy" />
+          <p class="org-chart-caption">"Serving Students Through Students" — EASTCSO 2025/2026</p>
         </div>
       </div>
     </section>
@@ -564,19 +545,35 @@
     <!-- ==================== EVENTS PAGE ==================== -->
     <section class="page-section" id="page-events">
       <div class="page-hero">
-        <p class="page-hero-label">✦ What's Happening ✦</p>
-        <h1 class="page-hero-title">Events &amp; Activities</h1>
-        <p class="page-hero-subtitle">Stay updated with all upcoming events, activities, and programs organized by EASTCSO.</p>
+        <p class="page-hero-label">What's Happening</p>
+        <h1 class="page-hero-title">Events &amp; Calendar</h1>
+        <p class="page-hero-subtitle">Upcoming events and key academic dates for the EASTC community, drawn from the official Academic Almanac 2025/2026.</p>
       </div>
 
       <div class="events-section">
-        <p class="section-eyebrow">2025 / 2026</p>
-        <h2 class="section-title">Featured Events</h2>
+        <div class="almanac-callout">
+          <div class="almanac-callout-info">
+            <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+            <div>
+              <div class="almanac-callout-title">EASTC Academic Almanac 2025/2026</div>
+              <div class="almanac-callout-sub">The full official calendar — examinations, holidays, graduation and more.</div>
+            </div>
+          </div>
+          <a class="btn-gold btn-compact" href="almanac.pdf" download><i class="bi bi-download" aria-hidden="true"></i> Download PDF</a>
+        </div>
 
+        <p class="section-eyebrow">Academic Year 2025/2026</p>
+        <h2 class="section-title">Upcoming Events</h2>
+        <div class="events-timeline" id="eventsTimeline"></div>
+        <p class="events-source">Source: EASTC Academic Almanac 2025/2026. The Centre reserves the right to alter dates without prior notice.</p>
+
+        <!-- Recent Highlights -->
+        <p class="section-eyebrow">Looking Back</p>
+        <h2 class="section-title">Recent Highlights</h2>
         <div class="events-grid">
-          <div class="event-card">
+          <article class="event-card event-card--past">
             <div class="event-card-img">
-              <img src="images/pic2.jpg" alt="Night of Awards" />
+              <img src="images/pic2.jpg" alt="Night of Awards ceremony" loading="lazy" />
               <div class="event-card-date-badge">
                 <div class="event-badge-day">01</div>
                 <div class="event-badge-month">May</div>
@@ -584,39 +581,19 @@
               </div>
             </div>
             <div class="event-card-body">
-              <span class="event-card-tag">🏆 Sports</span>
-              <h3 class="event-card-title">Night of Awards – EASTC Wasomi League 2025/26</h3>
-              <p class="event-card-desc">Sherehe ya utoaji tuzo za Ligi ya Mpira wa Miguu. Tuzo: Bingwa, Mshindi wa Pili, Golikipa Bora, Mfungaji Bora, Mchezaji Bora (MVP).</p>
+              <span class="event-card-tag"><i class="bi bi-trophy" aria-hidden="true"></i> Sports</span>
+              <h3 class="event-card-title">Night of Awards – Wasomi League 2025/26</h3>
+              <p class="event-card-desc">The football league awards ceremony honoured the champions, runners-up, best goalkeeper, top scorer and MVP. Guest of honour: President Mario Macha.</p>
               <div class="event-card-meta">
-                <div class="event-meta-item">🕕 6:00 PM</div>
-                <div class="event-meta-item">📍 Temp Class</div>
+                <div class="event-meta-item"><i class="bi bi-clock" aria-hidden="true"></i> 6:00 PM</div>
+                <div class="event-meta-item"><i class="bi bi-geo-alt" aria-hidden="true"></i> EASTC Temp Class</div>
               </div>
             </div>
-          </div>
+          </article>
 
-          <div class="event-card">
+          <article class="event-card event-card--past">
             <div class="event-card-img">
-              <img src="images/pic3.png" alt="Awards Night Event" />
-              <div class="event-card-date-badge">
-                <div class="event-badge-day">01</div>
-                <div class="event-badge-month">May</div>
-                <div class="event-badge-year">2026</div>
-              </div>
-            </div>
-            <div class="event-card-body">
-              <span class="event-card-tag">🎉 Ceremony</span>
-              <h3 class="event-card-title">EASTCSO Wasomi League Awards Ceremony</h3>
-              <p class="event-card-desc">Mgeni Rasmi: Macha Mario – Mh. Rais wa EASTCSO. Burudani Mbalimbali • Zitakuwepo! Jiandae na saa nzuri za sherehe.</p>
-              <div class="event-card-meta">
-                <div class="event-meta-item">🕕 6:00 PM</div>
-                <div class="event-meta-item">📍 EASTC Temp Class</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="event-card">
-            <div class="event-card-img">
-              <img src="images/web.jpg" alt="League Championship" />
+              <img src="images/web.jpg" alt="Web design project work" loading="lazy" />
               <div class="event-card-date-badge">
                 <div class="event-badge-day">30</div>
                 <div class="event-badge-month">Jun</div>
@@ -624,99 +601,61 @@
               </div>
             </div>
             <div class="event-card-body">
-              <span class="event-card-tag">📚 Academic</span>
-              <h3 class="event-card-title">Web Design Project Submission Deadline</h3>
-              <p class="event-card-desc">Mwisho wa kuwasilisha mradi wa Web Design and Development kupitia Moodle. Hakikisha kazi yako iko tayari kabla ya tarehe hii.</p>
+              <span class="event-card-tag"><i class="bi bi-book" aria-hidden="true"></i> Academic</span>
+              <h3 class="event-card-title">Web Design Project &amp; Presentations</h3>
+              <p class="event-card-desc">Students submitted their Web Design and Development projects via Moodle, followed by group presentations in the first week of July.</p>
               <div class="event-card-meta">
-                <div class="event-meta-item">📅 30 June 2026</div>
-                <div class="event-meta-item">💻 Via Moodle</div>
+                <div class="event-meta-item"><i class="bi bi-calendar3" aria-hidden="true"></i> Jun – Jul 2026</div>
+                <div class="event-meta-item"><i class="bi bi-laptop" aria-hidden="true"></i> Via Moodle</div>
               </div>
             </div>
-          </div>
+          </article>
 
-          <div class="event-card">
+          <article class="event-card event-card--past">
             <div class="event-card-img">
-              <img src="images/gp.jpg" alt="Group Presentations" />
+              <img src="images/kikap.jpg" alt="EASTCSO leadership gathering" loading="lazy" />
               <div class="event-card-date-badge">
-                <div class="event-badge-day">07</div>
-                <div class="event-badge-month">Jul</div>
+                <div class="event-badge-day">08</div>
+                <div class="event-badge-month">May</div>
                 <div class="event-badge-year">2026</div>
               </div>
             </div>
             <div class="event-card-body">
-              <span class="event-card-tag">🎤 Presentation</span>
-              <h3 class="event-card-title">Group Presentations – Web Design Module</h3>
-              <p class="event-card-desc">Vikundi vitawasilisha miradi yao ya Web Design mbele ya walimu na wanafunzi wenzao. Tathmini itajumuisha alama za kikundi na binafsi.</p>
+              <span class="event-card-tag"><i class="bi bi-people" aria-hidden="true"></i> Leadership</span>
+              <h3 class="event-card-title">EASTCSO Leadership Elections</h3>
+              <p class="event-card-desc">Students elected the leadership that will carry the organisation forward, in line with the EASTC academic calendar.</p>
               <div class="event-card-meta">
-                <div class="event-meta-item">📅 Week 1, July 2026</div>
-                <div class="event-meta-item">📍 EASTC Classrooms</div>
+                <div class="event-meta-item"><i class="bi bi-calendar3" aria-hidden="true"></i> 8 May 2026</div>
+                <div class="event-meta-item"><i class="bi bi-geo-alt" aria-hidden="true"></i> EASTC Campus</div>
               </div>
             </div>
-          </div>
-
-          <div class="event-card">
-            <div class="event-card-img">
-              <img src="images/kikap.jpg" alt="Leadership Forum" />
-              <div class="event-card-date-badge">
-                <div class="event-badge-day">15</div>
-                <div class="event-badge-month">Aug</div>
-                <div class="event-badge-year">2026</div>
-              </div>
-            </div>
-            <div class="event-card-body">
-              <span class="event-card-tag">🌟 Leadership</span>
-              <h3 class="event-card-title">EASTCSO Leadership &amp; Welfare Forum</h3>
-              <p class="event-card-desc">Mkutano wa uongozi wa wanafunzi kujadili ustawi, changamoto za masomo, na kupanga mikakati ya mwaka ujao wa masomo.</p>
-              <div class="event-card-meta">
-                <div class="event-meta-item">📅 August 2026</div>
-                <div class="event-meta-item">📍 EASTC Main Hall</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="event-card">
-            <div class="event-card-img">
-              <img src="images/slide2B.jpg" alt="Student Welfare" />
-              <div class="event-card-date-badge">
-                <div class="event-badge-day">20</div>
-                <div class="event-badge-month">Sep</div>
-                <div class="event-badge-year">2026</div>
-              </div>
-            </div>
-            <div class="event-card-body">
-              <span class="event-card-tag">🤝 Community</span>
-              <h3 class="event-card-title">EASTCSO Annual Student Welfare Day</h3>
-              <p class="event-card-desc">Siku ya ustawi wa wanafunzi — shughuli za burudani, mashindano, na huduma mbalimbali za ustawi wa wanafunzi wa EASTC.</p>
-              <div class="event-card-meta">
-                <div class="event-meta-item">📅 September 2026</div>
-                <div class="event-meta-item">📍 EASTC Campus</div>
-              </div>
-            </div>
-          </div>
+          </article>
         </div>
 
         <!-- Awards Table -->
-        <p class="section-eyebrow">Tuzo / Awards</p>
-        <h2 class="section-title">Wasomi League 2025/26 – Tuzo Zitakazotolewa</h2>
-        <div style="background:var(--white);border-radius:12px;padding:28px;box-shadow:var(--shadow-sm);overflow-x:auto;margin-bottom:48px;">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Tuzo (Award)</th>
-                <th>Maelezo</th>
-                <th>Thamani</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>1</td><td>🏆 Bingwa wa Mpira wa Miguu</td><td>Timu iliyoshinda ligi</td><td>Kombe + Tuzo</td></tr>
-              <tr><td>2</td><td>🥈 Mshindi wa Pili</td><td>Timu iliyokuja pili</td><td>Nishani + Tuzo</td></tr>
-              <tr><td>3</td><td>🥉 Mshindi wa Tatu</td><td>Timu iliyokuja tatu</td><td>Nishani + Tuzo</td></tr>
-              <tr><td>4</td><td>🧤 Golikipa Bora</td><td>Golikipa bora wa ligi</td><td>Tuzo ya Mtu</td></tr>
-              <tr><td>5</td><td>⚽ Mfungaji Bora</td><td>Mchezaji aliyefunga magoli mengi</td><td>Tuzo ya Mtu</td></tr>
-              <tr><td>6</td><td>⭐ Mchezaji Bora (MVP)</td><td>Most Valuable Player</td><td>Tuzo Kuu</td></tr>
-            </tbody>
-          </table>
+        <p class="section-eyebrow">Awards</p>
+        <h2 class="section-title">Wasomi League 2025/26 – Awards Presented</h2>
+        <div class="table-card">
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Award</th>
+                  <th>Description</th>
+                  <th>Prize</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td><i class="bi bi-trophy" aria-hidden="true"></i> League Champions <span lang="sw">(Bingwa)</span></td><td>Winning team of the league</td><td>Cup + Award</td></tr>
+                <tr><td>2</td><td><i class="bi bi-award" aria-hidden="true"></i> Runners-Up</td><td>Second-placed team</td><td>Medals + Award</td></tr>
+                <tr><td>3</td><td><i class="bi bi-award" aria-hidden="true"></i> Third Place</td><td>Third-placed team</td><td>Medals + Award</td></tr>
+                <tr><td>4</td><td><i class="bi bi-shield-check" aria-hidden="true"></i> Best Goalkeeper</td><td>Best goalkeeper of the league</td><td>Individual Award</td></tr>
+                <tr><td>5</td><td><i class="bi bi-bullseye" aria-hidden="true"></i> Top Scorer</td><td>Player with the most goals</td><td>Individual Award</td></tr>
+                <tr><td>6</td><td><i class="bi bi-star-fill" aria-hidden="true"></i> Most Valuable Player (MVP)</td><td>Best overall player of the season</td><td>Grand Award</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>
@@ -724,7 +663,7 @@
     <!-- ==================== SERVICES PAGE ==================== -->
     <section class="page-section" id="page-services">
       <div class="page-hero">
-        <p class="page-hero-label">✦ What We Offer ✦</p>
+        <p class="page-hero-label">What We Offer</p>
         <h1 class="page-hero-title">Student Services</h1>
         <p class="page-hero-subtitle">EASTCSO provides a wide range of services to support student life, welfare, and academic success.</p>
       </div>
@@ -735,60 +674,60 @@
 
         <div class="services-grid">
           <div class="service-card">
-            <span class="service-icon">📚</span>
+            <span class="service-icon"><i class="bi bi-book" aria-hidden="true"></i></span>
             <h3 class="service-title">Academic Support</h3>
             <p class="service-desc">Tutoring sessions, study groups, academic resources, and guidance on course selection and career pathways in statistics and data science.</p>
           </div>
           <div class="service-card">
-            <span class="service-icon">🏥</span>
+            <span class="service-icon"><i class="bi bi-heart-pulse" aria-hidden="true"></i></span>
             <h3 class="service-title">Health &amp; Welfare</h3>
             <p class="service-desc">Student health awareness programs, welfare clinics, mental health support, and coordination with EASTC's health services for student wellbeing.</p>
           </div>
           <div class="service-card">
-            <span class="service-icon">⚽</span>
+            <span class="service-icon"><i class="bi bi-trophy" aria-hidden="true"></i></span>
             <h3 class="service-title">Sports &amp; Recreation</h3>
             <p class="service-desc">Wasomi League football, sports tournaments, recreational activities, and entertainment events to keep students active and engaged.</p>
           </div>
           <div class="service-card">
-            <span class="service-icon">📢</span>
+            <span class="service-icon"><i class="bi bi-megaphone" aria-hidden="true"></i></span>
             <h3 class="service-title">Communication</h3>
             <p class="service-desc">Official announcements, notices, and information dissemination between EASTC administration and students through various channels.</p>
           </div>
           <div class="service-card">
-            <span class="service-icon">🌍</span>
+            <span class="service-icon"><i class="bi bi-globe2" aria-hidden="true"></i></span>
             <h3 class="service-title">Student Representation</h3>
             <p class="service-desc">Representing student interests to the administration, advocating for improved facilities, resources, and policy changes that benefit all learners.</p>
           </div>
           <div class="service-card">
-            <span class="service-icon">🎓</span>
+            <span class="service-icon"><i class="bi bi-mortarboard" aria-hidden="true"></i></span>
             <h3 class="service-title">Leadership Development</h3>
             <p class="service-desc">Leadership training programs, workshops, seminars, and opportunities for students to develop governance and management skills.</p>
           </div>
           <div class="service-card">
-            <span class="service-icon">💰</span>
+            <span class="service-icon"><i class="bi bi-cash-coin" aria-hidden="true"></i></span>
             <h3 class="service-title">Financial Guidance</h3>
             <p class="service-desc">Assistance with scholarship information, loan guidance, HESLB matters, and financial planning support for students.</p>
           </div>
           <div class="service-card">
-            <span class="service-icon">🚌</span>
+            <span class="service-icon"><i class="bi bi-bus-front" aria-hidden="true"></i></span>
             <h3 class="service-title">Transport &amp; Logistics</h3>
             <p class="service-desc">Coordination of student transport needs, field trips, institutional visits, and logistics for student events and activities.</p>
           </div>
           <div class="service-card">
-            <span class="service-icon">🤝</span>
+            <span class="service-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
             <h3 class="service-title">Social &amp; Community</h3>
             <p class="service-desc">Community service initiatives, social events, cultural programs, and activities that foster unity and camaraderie among EASTC students.</p>
           </div>
         </div>
 
         <!-- How to Access Services -->
-        <div style="background:var(--navy);border-radius:12px;padding:40px;text-align:center;margin-bottom:48px;">
-          <p class="section-eyebrow" style="color:var(--gold-light);justify-content:center;">Get Started</p>
-          <h3 style="font-family:var(--font-display);font-size:1.8rem;color:#fff;margin-bottom:16px;font-weight:700;">Need Help? Contact EASTCSO</h3>
-          <p style="color:rgba(255,255,255,0.7);max-width:560px;margin:0 auto 28px;font-size:0.95rem;line-height:1.7;">Reach out to any of our ministry representatives or contact us directly. We are here to serve you!</p>
-          <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-            <a class="btn-gold" onclick="navigateTo('contact')" style="cursor:pointer;">Contact Us Now</a>
-            <a class="btn-gold" onclick="navigateTo('leaders')" style="cursor:pointer;background:transparent;border:2px solid var(--gold);color:var(--gold);">Meet Our Leaders</a>
+        <div class="cta-band">
+          <p class="section-eyebrow">Get Started</p>
+          <h3 class="cta-band-title">Need Help? Contact EASTCSO</h3>
+          <p class="cta-band-text">Reach out to any of our ministry representatives or contact us directly. We are here to serve you!</p>
+          <div class="cta-band-actions">
+            <a class="btn-gold" href="#/contact">Contact Us Now</a>
+            <a class="btn-outline-gold" href="#/leaders">Meet Our Leaders</a>
           </div>
         </div>
       </div>
@@ -797,7 +736,7 @@
     <!-- ==================== GALLERY PAGE ==================== -->
     <section class="page-section" id="page-gallery">
       <div class="page-hero">
-        <p class="page-hero-label">✦ Our Moments ✦</p>
+        <p class="page-hero-label">Our Moments</p>
         <h1 class="page-hero-title">Photo Gallery</h1>
         <p class="page-hero-subtitle">Relive the memorable moments of EASTCSO activities, events, and achievements.</p>
       </div>
@@ -807,116 +746,133 @@
         <h2 class="section-title">EASTCSO Moments</h2>
 
         <div class="gallery-grid">
-          <div class="gallery-item" onclick="openLightbox('images/slide2.jpeg','EASTC Wasomi League – Night of Awards 2025/26')">
-            <img src="images/pic2.jpg" alt="Night of Awards" />
-            <div class="gallery-overlay"><span class="gallery-overlay-text">🏆 Night of Awards – Wasomi League</span></div>
-          </div>
-          <div class="gallery-item" onclick="openLightbox('images/slide3.jpeg','Awards Night – EASTCSO Wasomi League 2025/26')">
-            <img src="images/pic3.png" alt="Awards Night" />
-            <div class="gallery-overlay"><span class="gallery-overlay-text">🎉 Awards Ceremony with Mgeni Rasmi</span></div>
-          </div>
-          <div class="gallery-item" onclick="openLightbox('images/slide4.jpeg','EASTC Wasomi League Champions')">
-            <img src="images/slide4.jpeg" alt="League Champions" />
-            <div class="gallery-overlay"><span class="gallery-overlay-text">⚽ Wasomi League Champions 2025/26</span></div>
-          </div>
-          <div class="gallery-item" onclick="openLightbox('images/slide1.jpeg','EASTCSO Student Activities')">
-            <img src="images/Q.jpeg" alt="Student Activities" />
-            <div class="gallery-overlay"><span class="gallery-overlay-text">📚 Student Activities at EASTC</span></div>
-          </div>
-          <div class="gallery-item" onclick="openLightbox('images/president-speaking.jpeg','Rais Mario Macha akizungumza na wanafunzi')">
-            <img src="images/QW.jpeg" alt="President Speaking" />
-            <div class="gallery-overlay"><span class="gallery-overlay-text">🎤 Rais Macha Mario – Leadership Address</span></div>
-          </div>
-          <div class="gallery-item" onclick="openLightbox('images/group-photo1.jpeg','EASTCSO Executive Group Photo')">
-            <img src="images/pamoja2.jpg" alt="Group Photo" />
-            <div class="gallery-overlay"><span class="gallery-overlay-text">👥 EASTCSO Executive Team</span></div>
-          </div>
-          <div class="gallery-item" onclick="openLightbox('images/group-photo2.jpeg','EASTCSO Group Photo – Institutional Visit')">
-            <img src="images/slide5.jpg" alt="Group Photo 2" />
-            <div class="gallery-overlay"><span class="gallery-overlay-text">🌍 Institutional Visit – EASTCSO Delegation</span></div>
-          </div>
-          <div class="gallery-item" onclick="openLightbox('images/executive-org.jpeg','EASTCSO Executive Organ Chart 2025/2026')">
-            <img src="images/parliament.jpg" alt="Executive Org Chart" />
-            <div class="gallery-overlay"><span class="gallery-overlay-text">🏛️ Executive Organ 2025/2026</span></div>
-          </div>
+          <button type="button" class="gallery-item" data-full="images/pic2.jpg" data-caption="Night of Awards – EASTCSO Wasomi League 2025/26">
+            <img src="images/pic2.jpg" alt="Night of Awards ceremony" loading="lazy" />
+            <span class="gallery-overlay"><span class="gallery-overlay-text">Night of Awards – Wasomi League</span></span>
+          </button>
+          <button type="button" class="gallery-item" data-full="images/pic3.png" data-caption="Awards ceremony with the guest of honour">
+            <img src="images/pic3.png" alt="Awards ceremony with the guest of honour" loading="lazy" />
+            <span class="gallery-overlay"><span class="gallery-overlay-text">Awards Ceremony with Guest of Honour</span></span>
+          </button>
+          <button type="button" class="gallery-item" data-full="images/slide4.jpeg" data-caption="EASTCSO Wasomi League champions">
+            <img src="images/slide4.jpeg" alt="Wasomi League champions celebrating" loading="lazy" />
+            <span class="gallery-overlay"><span class="gallery-overlay-text">Wasomi League Champions 2025/26</span></span>
+          </button>
+          <button type="button" class="gallery-item" data-full="images/Q.jpeg" data-caption="Student activities at EASTC">
+            <img src="images/Q.jpeg" alt="Student activities at EASTC" loading="lazy" />
+            <span class="gallery-overlay"><span class="gallery-overlay-text">Student Activities at EASTC</span></span>
+          </button>
+          <button type="button" class="gallery-item" data-full="images/pres.jpg" data-caption="President Mario Macha – leadership address">
+            <img src="images/QW.jpeg" alt="President Mario Macha addressing students" loading="lazy" />
+            <span class="gallery-overlay"><span class="gallery-overlay-text">President Mario Macha – Leadership Address</span></span>
+          </button>
+          <button type="button" class="gallery-item" data-full="images/pamoja2.jpg" data-caption="EASTCSO executive team group photo">
+            <img src="images/pamoja2.jpg" alt="EASTCSO executive team group photo" loading="lazy" />
+            <span class="gallery-overlay"><span class="gallery-overlay-text">EASTCSO Executive Team</span></span>
+          </button>
+          <button type="button" class="gallery-item" data-full="images/slide5.jpg" data-caption="EASTCSO delegation – institutional visit">
+            <img src="images/slide5.jpg" alt="EASTCSO delegation on an institutional visit" loading="lazy" />
+            <span class="gallery-overlay"><span class="gallery-overlay-text">Institutional Visit – EASTCSO Delegation</span></span>
+          </button>
+          <button type="button" class="gallery-item" data-full="images/parliament.jpg" data-caption="Executive organ 2025/2026">
+            <img src="images/parliament.jpg" alt="EASTCSO executive organ" loading="lazy" />
+            <span class="gallery-overlay"><span class="gallery-overlay-text">Executive Organ 2025/2026</span></span>
+          </button>
         </div>
       </div>
 
       <!-- Lightbox Modal -->
-      <div class="modal-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
-        <div style="max-width:860px;width:95%;position:relative;" onclick="event.stopPropagation()">
-          <button onclick="closeLightbox()" style="position:absolute;top:-16px;right:-16px;width:36px;height:36px;background:var(--gold);border-radius:50%;font-size:1.2rem;color:var(--navy);font-weight:700;z-index:10;display:flex;align-items:center;justify-content:center;">✕</button>
-          <img id="lightboxImg" src="" alt="" style="width:100%;border-radius:10px;box-shadow:0 24px 80px rgba(0,0,0,0.5);" />
-          <p id="lightboxCaption" style="color:rgba(255,255,255,0.85);text-align:center;margin-top:14px;font-size:0.9rem;"></p>
+      <div class="modal-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-label="Image viewer">
+        <div class="lightbox-panel">
+          <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close image viewer"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+          <img id="lightboxImg" class="lightbox-img" src="" alt="" />
+          <p id="lightboxCaption" class="lightbox-caption"></p>
         </div>
       </div>
     </section>
 
-    <!-- ==================== ANNOUNCEMENTS (CRUD) PAGE ==================== -->
+    <!-- ==================== ANNOUNCEMENTS (PUBLIC) PAGE ==================== -->
     <section class="page-section" id="page-announcements">
       <div class="page-hero">
-        <p class="page-hero-label">✦ CRUD Operations ✦</p>
-        <h1 class="page-hero-title">Announcements Manager</h1>
-        <p class="page-hero-subtitle">Create, Read, Update and Delete official notices and announcements — full CRUD with JavaScript.</p>
+        <p class="page-hero-label">Stay Informed</p>
+        <h1 class="page-hero-title">Announcements &amp; Notices</h1>
+        <p class="page-hero-subtitle">Official notices from the EASTCSO executive — deadlines, meetings, events and student information.</p>
       </div>
 
-      <div style="max-width:1280px;margin:48px auto;padding:0 24px;">
+      <div class="notices-section">
+        <div id="publicNotices"></div>
+        <div class="notices-cta">
+          <a class="btn-outline-gold" href="almanac.pdf" download><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> Academic Almanac (PDF)</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ADMIN: ANNOUNCEMENTS MANAGER ==================== -->
+    <section class="page-section" id="page-admin">
+      <div class="page-hero">
+        <p class="page-hero-label">Internal Tool</p>
+        <h1 class="page-hero-title">Announcements Manager</h1>
+        <p class="page-hero-subtitle">For the EASTCSO executive team — create, update and archive the notices shown across the site. Changes are saved in this browser.</p>
+      </div>
+
+      <div class="admin-wrap">
         <div class="crud-section">
 
           <!-- ADD / EDIT FORM -->
           <div class="crud-form-card">
-            <h3 id="formTitle">➕ Add New Announcement</h3>
+            <h3><i class="bi bi-megaphone" aria-hidden="true"></i> <span id="formTitle">Add New Announcement</span></h3>
             <input type="hidden" id="editId" value="" />
 
             <div class="form-group">
-              <label class="form-label">Title *</label>
-              <input type="text" class="form-control" id="annTitle" placeholder="Kichwa cha tangazo..." />
+              <label class="form-label" for="annTitle">Title *</label>
+              <input type="text" class="form-control" id="annTitle" name="annTitle" placeholder="Announcement title..." />
             </div>
             <div class="form-group">
-              <label class="form-label">Category</label>
-              <select class="form-control" id="annCategory">
-                <option value="Notice">📌 Notice</option>
-                <option value="Event">📅 Event</option>
-                <option value="Academic">📚 Academic</option>
-                <option value="Sports">⚽ Sports</option>
-                <option value="Welfare">🏥 Welfare</option>
-                <option value="General">📢 General</option>
+              <label class="form-label" for="annCategory">Category</label>
+              <select class="form-control" id="annCategory" name="annCategory">
+                <option value="Notice">Notice</option>
+                <option value="Event">Event</option>
+                <option value="Academic">Academic</option>
+                <option value="Sports">Sports</option>
+                <option value="Welfare">Welfare</option>
+                <option value="General">General</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Description *</label>
-              <textarea class="form-control" id="annDesc" rows="4" placeholder="Maelezo ya tangazo..."></textarea>
+              <label class="form-label" for="annDesc">Description *</label>
+              <textarea class="form-control" id="annDesc" name="annDesc" rows="4" placeholder="Announcement details..."></textarea>
             </div>
             <div class="form-group">
-              <label class="form-label">Date</label>
-              <input type="date" class="form-control" id="annDate" />
+              <label class="form-label" for="annDate">Date</label>
+              <input type="date" class="form-control" id="annDate" name="annDate" />
             </div>
             <div class="form-group">
-              <label class="form-label">Status</label>
-              <select class="form-control" id="annStatus">
-                <option value="Active">✅ Active</option>
-                <option value="Archived">📦 Archived</option>
+              <label class="form-label" for="annStatus">Status</label>
+              <select class="form-control" id="annStatus" name="annStatus">
+                <option value="Active">Active</option>
+                <option value="Archived">Archived</option>
               </select>
             </div>
 
             <div id="formAlert"></div>
 
-            <div style="display:flex;gap:10px;margin-top:4px;">
-              <button class="btn-primary" onclick="saveAnnouncement()">💾 Save</button>
-              <button class="btn-secondary" onclick="cancelEdit()">✕ Cancel</button>
+            <div class="crud-actions">
+              <button type="button" class="btn-primary" id="saveAnnBtn"><i class="bi bi-check-lg" aria-hidden="true"></i> Save</button>
+              <button type="button" class="btn-secondary" id="cancelAnnBtn"><i class="bi bi-x-lg" aria-hidden="true"></i> Cancel</button>
             </div>
           </div>
 
           <!-- TABLE -->
           <div class="crud-table-card">
-            <h3>📋 All Announcements</h3>
+            <h3><i class="bi bi-clipboard-check" aria-hidden="true"></i> All Announcements</h3>
 
             <div class="crud-search">
-              <input type="text" id="searchInput" placeholder="🔍 Search announcements..." oninput="renderTable()" />
-              <button class="btn-gold" onclick="renderTable()" style="padding:10px 18px;font-size:0.82rem;">Search</button>
+              <label class="form-label" for="searchInput" hidden>Search announcements</label>
+              <input type="text" id="searchInput" name="searchInput" placeholder="Search announcements..." />
+              <button type="button" class="btn-gold btn-compact" id="searchBtn"><i class="bi bi-search" aria-hidden="true"></i> Search</button>
             </div>
 
-            <div style="overflow-x:auto;">
+            <div class="table-scroll">
               <table class="data-table" id="announcementsTable">
                 <thead>
                   <tr>
@@ -933,16 +889,23 @@
                 </tbody>
               </table>
             </div>
-            <div id="emptyState" class="empty-state" style="display:none;">
-              <div class="empty-icon">📭</div>
-              <p>Hakuna matangazo yaliyopatikana.</p>
+            <div id="emptyState" class="empty-state" hidden>
+              <i class="bi bi-inbox empty-icon" aria-hidden="true"></i>
+              <p>No announcements found.</p>
             </div>
 
-            <div style="margin-top:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-              <span id="recordCount" style="font-size:0.82rem;color:var(--gray-500);"></span>
-              <button class="btn-gold" onclick="exportCSV()" style="font-size:0.8rem;padding:8px 16px;">📤 Export CSV</button>
+            <div class="crud-footer">
+              <span id="recordCount" class="record-count"></span>
+              <button type="button" class="btn-gold btn-compact" id="exportCsvBtn"><i class="bi bi-download" aria-hidden="true"></i> Export CSV</button>
             </div>
           </div>
+        </div>
+
+        <!-- Messages received via the contact form (this browser only) -->
+        <div class="messages-panel" id="messagesList" hidden>
+          <h3><i class="bi bi-envelope-open" aria-hidden="true"></i> Received Messages (<span id="msgCount">0</span>)</h3>
+          <p class="messages-note">Messages submitted through the contact form on this device. The sender is also directed to WhatsApp for delivery.</p>
+          <div id="messagesContainer"></div>
         </div>
       </div>
     </section>
@@ -950,12 +913,12 @@
     <!-- ==================== CONTACT PAGE ==================== -->
     <section class="page-section" id="page-contact">
       <div class="page-hero">
-        <p class="page-hero-label">✦ Get In Touch ✦</p>
+        <p class="page-hero-label">Get In Touch</p>
         <h1 class="page-hero-title">Contact Us</h1>
         <p class="page-hero-subtitle">Have questions or need assistance? Reach out to EASTCSO — we are here to help.</p>
       </div>
 
-      <div class="contact-section" style="margin-bottom:48px;">
+      <div class="contact-section">
         <!-- Contact Info -->
         <div class="contact-info">
           <h2>Get In Touch with EASTCSO</h2>
@@ -963,35 +926,35 @@
 
           <div class="contact-items">
             <div class="contact-item">
-              <div class="contact-item-icon">📍</div>
+              <div class="contact-item-icon"><i class="bi bi-geo-alt" aria-hidden="true"></i></div>
               <div>
                 <div class="contact-item-title">Location</div>
                 <div class="contact-item-val">Eastern Africa Statistical Training Centre (EASTC)<br/>Dar es Salaam, Tanzania</div>
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-item-icon">📞</div>
+              <div class="contact-item-icon"><i class="bi bi-telephone" aria-hidden="true"></i></div>
               <div>
                 <div class="contact-item-title">President's Office</div>
-                <div class="contact-item-val">Mario Macha – +255 693 827 599</div>
+                <div class="contact-item-val">Mario Macha – <a href="tel:+255693827599">+255 693 827 599</a></div>
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-item-icon">📞</div>
+              <div class="contact-item-icon"><i class="bi bi-telephone" aria-hidden="true"></i></div>
               <div>
                 <div class="contact-item-title">Vice President</div>
-                <div class="contact-item-val">Nesta Msola – +255 780 480 730</div>
+                <div class="contact-item-val">Nesta Msola – <a href="tel:+255780480730">+255 780 480 730</a></div>
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-item-icon">📞</div>
+              <div class="contact-item-icon"><i class="bi bi-telephone" aria-hidden="true"></i></div>
               <div>
                 <div class="contact-item-title">Chief Secretary</div>
-                <div class="contact-item-val">Steven Ladislaus – +255 715 296 092</div>
+                <div class="contact-item-val">Steven Ladislaus – <a href="tel:+255715296092">+255 715 296 092</a></div>
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-item-icon">📱</div>
+              <div class="contact-item-icon"><i class="bi bi-chat-dots" aria-hidden="true"></i></div>
               <div>
                 <div class="contact-item-title">Social Media</div>
                 <div class="contact-item-val">TikTok / YouTube: @eastcso.channel<br/>Instagram / WhatsApp: EASTCSO</div>
@@ -999,32 +962,32 @@
             </div>
           </div>
 
-          <div style="margin-top:24px;padding:20px;background:var(--gold-pale);border-radius:10px;border-left:4px solid var(--gold);">
-            <p style="font-size:0.88rem;color:var(--navy);font-weight:600;margin-bottom:4px;">📌 Project Submission</p>
-            <p style="font-size:0.84rem;color:var(--gray-700);">Submit the online link through <strong>Moodle</strong> before <strong>30th June, 2026</strong>. Group presentations will take place during the first week of July 2026.</p>
+          <div class="contact-note">
+            <p class="contact-note-title"><i class="bi bi-whatsapp" aria-hidden="true"></i> Fastest Response</p>
+            <p>Message us directly on <a href="https://wa.me/255693827599" target="_blank" rel="noopener">WhatsApp (+255 693 827 599)</a> — or use the form and it will open WhatsApp with your message ready to send.</p>
           </div>
         </div>
 
         <!-- Contact Form -->
         <div class="contact-form-card">
-          <h3>✉️ Send Us a Message</h3>
+          <h3><i class="bi bi-envelope" aria-hidden="true"></i> Send Us a Message</h3>
 
           <div id="contactAlert"></div>
 
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label">Full Name *</label>
-              <input type="text" class="form-control" id="contactName" placeholder="Jina lako kamili..." />
+              <label class="form-label" for="contactName">Full Name *</label>
+              <input type="text" class="form-control" id="contactName" name="contactName" placeholder="Your full name..." autocomplete="name" />
             </div>
             <div class="form-group">
-              <label class="form-label">Phone / Email *</label>
-              <input type="text" class="form-control" id="contactEmail" placeholder="Nambari au barua pepe..." />
+              <label class="form-label" for="contactEmail">Phone / Email *</label>
+              <input type="text" class="form-control" id="contactEmail" name="contactEmail" placeholder="Phone number or email..." autocomplete="email" />
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Subject</label>
-            <select class="form-control" id="contactSubject">
+            <label class="form-label" for="contactSubject">Subject</label>
+            <select class="form-control" id="contactSubject" name="contactSubject">
               <option>General Inquiry</option>
               <option>Academic Support</option>
               <option>Sports &amp; Activities</option>
@@ -1035,17 +998,12 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Message *</label>
-            <textarea class="form-control" id="contactMessage" rows="5" placeholder="Andika ujumbe wako hapa..."></textarea>
+            <label class="form-label" for="contactMessage">Message *</label>
+            <textarea class="form-control" id="contactMessage" name="contactMessage" rows="5" placeholder="Write your message here..."></textarea>
           </div>
 
-          <button class="btn-primary" onclick="submitContact()">📨 Send Message</button>
-
-          <!-- Messages list -->
-          <div id="messagesList" style="margin-top:24px;display:none;">
-            <h4 style="font-family:var(--font-display);font-size:1rem;color:var(--navy);margin-bottom:12px;">📬 Received Messages (<span id="msgCount">0</span>)</h4>
-            <div id="messagesContainer"></div>
-          </div>
+          <button type="button" class="btn-primary" id="contactSendBtn"><i class="bi bi-whatsapp" aria-hidden="true"></i> Send via WhatsApp</button>
+          <p class="form-hint">Sending opens WhatsApp with your message prefilled — press send there to deliver it.</p>
         </div>
       </div>
     </section>
@@ -1059,55 +1017,54 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="footer-logo">EASTCSO</div>
-        <p>Eastern Africa Statistical Training Centre Students Organisation — the official student government of EASTC, dedicated to serving students through students since inception.</p>
+        <p>Eastern Africa Statistical Training Centre Students Organisation — the official student government of EASTC, dedicated to serving students through students.</p>
         <div class="social-links">
-          <a class="social-link" title="TikTok">📱</a>
-          <a class="social-link" title="YouTube">▶️</a>
-          <a class="social-link" title="WhatsApp">💬</a>
-          <a class="social-link" title="Instagram">📷</a>
+          <a class="social-link" href="https://www.tiktok.com/@eastcso.channel" target="_blank" rel="noopener" aria-label="EASTCSO on TikTok"><i class="bi bi-tiktok" aria-hidden="true"></i></a>
+          <a class="social-link" href="https://www.youtube.com/@eastcso.channel" target="_blank" rel="noopener" aria-label="EASTCSO on YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+          <a class="social-link" href="https://wa.me/255693827599" target="_blank" rel="noopener" aria-label="EASTCSO on WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
+          <a class="social-link" href="https://www.instagram.com/eastcso.channel" target="_blank" rel="noopener" aria-label="EASTCSO on Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></a>
         </div>
       </div>
 
       <div>
         <div class="footer-col-title">Quick Links</div>
         <div class="footer-links">
-          <span class="footer-link" onclick="navigateTo('home')">Home</span>
-          <span class="footer-link" onclick="navigateTo('about')">About Us</span>
-          <span class="footer-link" onclick="navigateTo('leaders')">Our Leaders</span>
-          <span class="footer-link" onclick="navigateTo('events')">Events</span>
-          <span class="footer-link" onclick="navigateTo('gallery')">Gallery</span>
+          <a class="footer-link" href="#/home">Home</a>
+          <a class="footer-link" href="#/about">About Us</a>
+          <a class="footer-link" href="#/leaders">Our Leaders</a>
+          <a class="footer-link" href="#/events">Events</a>
+          <a class="footer-link" href="#/gallery">Gallery</a>
+          <a class="footer-link" href="#/announcements">Notices</a>
+          <a class="footer-link" href="almanac.pdf" download>Almanac (PDF)</a>
         </div>
       </div>
 
       <div>
         <div class="footer-col-title">Services</div>
         <div class="footer-links">
-          <span class="footer-link" onclick="navigateTo('services')">Academic Support</span>
-          <span class="footer-link" onclick="navigateTo('services')">Health &amp; Welfare</span>
-          <span class="footer-link" onclick="navigateTo('services')">Sports &amp; Recreation</span>
-          <span class="footer-link" onclick="navigateTo('services')">Leadership Programs</span>
-          <span class="footer-link" onclick="navigateTo('announcements')">CRUD Manager</span>
+          <a class="footer-link" href="#/services">Academic Support</a>
+          <a class="footer-link" href="#/services">Health &amp; Welfare</a>
+          <a class="footer-link" href="#/services">Sports &amp; Recreation</a>
+          <a class="footer-link" href="#/services">Leadership Programs</a>
+          <a class="footer-link" href="#/services">All Services</a>
         </div>
       </div>
 
       <div>
         <div class="footer-col-title">Contact</div>
         <div class="footer-links">
-          <span class="footer-link">EASTC, Dar es Salaam</span>
-          <span class="footer-link">+255 693 827 599</span>
-          <span class="footer-link">@eastcso.channel</span>
-          <span class="footer-link" onclick="navigateTo('contact')">Send Message</span>
+          <span class="footer-text"><i class="bi bi-geo-alt" aria-hidden="true"></i> EASTC, Dar es Salaam</span>
+          <a class="footer-text" href="tel:+255693827599"><i class="bi bi-telephone" aria-hidden="true"></i> +255 693 827 599</a>
+          <span class="footer-text"><i class="bi bi-at" aria-hidden="true"></i> eastcso.channel</span>
+          <a class="footer-link" href="#/contact">Send a Message</a>
         </div>
       </div>
     </div>
 
-    <div style="max-width:1280px;margin:0 auto;">
-      <div class="footer-bottom">
-        <p class="footer-copy">© 2025/2026 EASTCSO – Eastern Africa Statistical Training Centre Students Organisation. All Rights Reserved.</p>
-        <p class="footer-slogan">"Serving Students Through Students"</p>
-        
-        <p>designed by @manny</p>
-      </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025/2026 EASTCSO – Eastern Africa Statistical Training Centre Students Organisation. All Rights Reserved.</p>
+      <p class="footer-slogan">"Serving Students Through Students"</p>
+      <p class="footer-credit">Designed by @manny · <a href="#/admin">Site Admin</a></p>
     </div>
   </footer>
 
@@ -1116,7 +1073,7 @@
 <!-- ============================================================
      TOAST CONTAINER
      ============================================================ -->
-<div class="toast-container" id="toastContainer"></div>
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
 <!-- ============================================================
      JAVASCRIPT

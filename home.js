@@ -1,53 +1,88 @@
 /* =============================================
    EASTCSO WEBSITE – MAIN JAVASCRIPT
-   Full functionality: Navigation, Slideshow,
-   Stats Counter, CRUD, Contact Form, Toast
+   Hash router, slideshow, stats, events calendar,
+   announcements (localStorage), contact form, toasts
    ============================================= */
 
 'use strict';
 
 /* ============================================================
-   1. PAGE NAVIGATION
+   1. ROUTER (hash-based: #/home, #/about, ...)
    ============================================================ */
-const PAGES = ['home', 'about', 'leaders', 'events', 'services', 'gallery', 'announcements', 'contact'];
+const ROUTES = {
+  home: 'Home',
+  about: 'About',
+  leaders: 'Our Leaders',
+  events: 'Events & Calendar',
+  services: 'Student Services',
+  gallery: 'Photo Gallery',
+  announcements: 'Announcements & Notices',
+  contact: 'Contact Us',
+  admin: 'Announcements Manager'
+};
+const BASE_TITLE = 'EASTCSO – Eastern Africa Statistical Training Centre Students Organisation';
 
-function navigateTo(pageId) {
-  if (!PAGES.includes(pageId)) return;
+// Routes without their own nav link highlight a related one
+const NAV_ALIAS = { leaders: 'about', admin: 'announcements' };
 
-  // Hide all sections
-  PAGES.forEach(id => {
-    const el = document.getElementById('page-' + id);
-    if (el) el.classList.remove('active');
-  });
+const PAGE_INIT = {
+  home() { initStats(); renderHomeNotices(); renderHomeEvents(); },
+  events() { renderEventsPage(); },
+  announcements() { renderPublicNotices(); },
+  admin() { renderTable(); renderMessages(); }
+};
 
-  // Show target
-  const target = document.getElementById('page-' + pageId);
-  if (target) {
-    target.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  // Update nav links
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.classList.remove('active');
-    if (link.dataset.page === pageId) link.classList.add('active');
-  });
-
-  // Close mobile menu
-  const nav = document.getElementById('mainNav');
-  if (nav) nav.classList.remove('open');
-
-  // Run page-specific init
-  if (pageId === 'home') initStats();
-  if (pageId === 'announcements') renderTable();
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
+function currentRoute() {
+  const hash = location.hash.replace(/^#\/?/, '');
+  return Object.prototype.hasOwnProperty.call(ROUTES, hash) ? hash : 'home';
+}
+
+function render() {
+  const route = currentRoute();
+
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('page-' + route);
+  if (target) target.classList.add('active');
+
+  const navPage = NAV_ALIAS[route] || route;
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const active = link.dataset.page === navPage;
+    link.classList.toggle('active', active);
+    if (active) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+
+  closeMenu();
+  window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+  document.title = route === 'home' ? BASE_TITLE : ROUTES[route] + ' – EASTCSO';
+
+  if (PAGE_INIT[route]) PAGE_INIT[route]();
+}
+
+window.addEventListener('hashchange', render);
+
 /* ============================================================
-   2. MOBILE MENU TOGGLE
+   2. MOBILE MENU
    ============================================================ */
-function toggleMenu() {
+function closeMenu() {
   const nav = document.getElementById('mainNav');
-  if (nav) nav.classList.toggle('open');
+  const btn = document.getElementById('menuToggle');
+  if (nav) nav.classList.remove('open');
+  if (btn) btn.setAttribute('aria-expanded', 'false');
+}
+
+function initMenu() {
+  const nav = document.getElementById('mainNav');
+  const btn = document.getElementById('menuToggle');
+  if (!nav || !btn) return;
+  btn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
 }
 
 /* ============================================================
@@ -55,22 +90,32 @@ function toggleMenu() {
    ============================================================ */
 let currentSlide = 0;
 let slideTimer = null;
-const SLIDE_INTERVAL = 7000; // 2 seconds as requested
+const SLIDE_INTERVAL = 7000; // auto-advance every 7 seconds
 
 function initSlideshow() {
+  const shell = document.querySelector('.hero-slideshow');
   const slides = document.querySelectorAll('.slide');
   const indicatorsEl = document.getElementById('slideIndicators');
+  if (!shell || !slides.length || !indicatorsEl) return;
 
-  if (!slides.length || !indicatorsEl) return;
-
-  // Build indicators
   indicatorsEl.innerHTML = '';
   slides.forEach((_, i) => {
-    const dot = document.createElement('div');
+    const dot = document.createElement('button');
+    dot.type = 'button';
     dot.className = 'indicator' + (i === 0 ? ' active' : '');
-    dot.onclick = () => goToSlide(i);
+    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    dot.addEventListener('click', () => { goToSlide(i); restartSlideTimer(); });
     indicatorsEl.appendChild(dot);
   });
+
+  shell.querySelector('.slide-prev')?.addEventListener('click', () => changeSlide(-1));
+  shell.querySelector('.slide-next')?.addEventListener('click', () => changeSlide(1));
+
+  // Pause while the user is reading or interacting
+  shell.addEventListener('mouseenter', stopSlideshow);
+  shell.addEventListener('mouseleave', startSlideshow);
+  shell.addEventListener('focusin', stopSlideshow);
+  shell.addEventListener('focusout', startSlideshow);
 
   startSlideshow();
 }
@@ -78,32 +123,34 @@ function initSlideshow() {
 function goToSlide(index) {
   const slides = document.querySelectorAll('.slide');
   const indicators = document.querySelectorAll('.indicator');
+  if (!slides.length) return;
 
-  slides[currentSlide].classList.remove('active');
-  if (indicators[currentSlide]) indicators[currentSlide].classList.remove('active');
+  slides[currentSlide]?.classList.remove('active');
+  indicators[currentSlide]?.classList.remove('active');
 
-  currentSlide = (index + slides.length) % slides.length;
+  currentSlide = ((index % slides.length) + slides.length) % slides.length;
 
-  slides[currentSlide].classList.add('active');
-  if (indicators[currentSlide]) indicators[currentSlide].classList.add('active');
+  slides[currentSlide]?.classList.add('active');
+  indicators[currentSlide]?.classList.add('active');
 }
 
 function changeSlide(direction) {
-  const slides = document.querySelectorAll('.slide');
   goToSlide(currentSlide + direction);
   restartSlideTimer();
 }
 
 function startSlideshow() {
-  if (slideTimer) clearInterval(slideTimer);
-  slideTimer = setInterval(() => {
-    const slides = document.querySelectorAll('.slide');
-    goToSlide((currentSlide + 1) % slides.length);
-  }, SLIDE_INTERVAL);
+  stopSlideshow();
+  if (prefersReducedMotion()) return;
+  slideTimer = setInterval(() => goToSlide(currentSlide + 1), SLIDE_INTERVAL);
+}
+
+function stopSlideshow() {
+  if (slideTimer) { clearInterval(slideTimer); slideTimer = null; }
 }
 
 function restartSlideTimer() {
-  clearInterval(slideTimer);
+  stopSlideshow();
   startSlideshow();
 }
 
@@ -132,103 +179,311 @@ function initStats() {
 
 function animateCounter(el) {
   const target = parseInt(el.dataset.target, 10);
+  const suffix = target >= 100 ? '+' : '';
+
+  if (prefersReducedMotion()) {
+    el.textContent = target + suffix;
+    return;
+  }
+
   const duration = 1800;
   const step = target / (duration / 16);
   let current = 0;
 
   const update = () => {
     current = Math.min(current + step, target);
-    el.textContent = Math.floor(current) + (target >= 100 ? '+' : '');
+    el.textContent = Math.floor(current) + suffix;
     if (current < target) requestAnimationFrame(update);
   };
   requestAnimationFrame(update);
 }
 
 /* ============================================================
-   5. GALLERY LIGHTBOX
+   5. GALLERY LIGHTBOX (event delegation)
    ============================================================ */
-function openLightbox(src, caption) {
+let lightboxReturnFocus = null;
+
+function initGallery() {
+  const grid = document.querySelector('.gallery-grid');
+  grid?.addEventListener('click', e => {
+    const item = e.target.closest('.gallery-item');
+    if (!item) return;
+    const img = item.querySelector('img');
+    const src = item.dataset.full || img?.src || '';
+    const caption = item.dataset.caption || img?.alt || '';
+    openLightbox(src, caption, item);
+  });
+
+  document.getElementById('lightboxClose')?.addEventListener('click', closeLightbox);
+  document.getElementById('lightboxOverlay')?.addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeLightbox();
+  });
+}
+
+function openLightbox(src, caption, origin) {
   const overlay = document.getElementById('lightboxOverlay');
   const img = document.getElementById('lightboxImg');
   const cap = document.getElementById('lightboxCaption');
-  if (!overlay || !img) return;
+  if (!overlay || !img || !src) return;
 
   img.src = src;
   img.alt = caption;
   if (cap) cap.textContent = caption;
+  lightboxReturnFocus = origin || null;
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.getElementById('lightboxClose')?.focus();
 }
 
-function closeLightbox(e) {
-  if (e && e.target !== document.getElementById('lightboxOverlay') && !e.target.closest('button')) return;
+function closeLightbox() {
   const overlay = document.getElementById('lightboxOverlay');
-  if (overlay) overlay.classList.remove('open');
+  if (!overlay || !overlay.classList.contains('open')) return;
+  overlay.classList.remove('open');
   document.body.style.overflow = '';
+  if (lightboxReturnFocus) { lightboxReturnFocus.focus(); lightboxReturnFocus = null; }
 }
 
-// Also close on ESC
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeLightbox({ target: document.getElementById('lightboxOverlay') });
-    closeModal('deleteModal');
-  }
+  if (e.key === 'Escape') closeLightbox();
 });
 
 /* ============================================================
-   6. CRUD – ANNOUNCEMENTS MANAGER
+   6. EVENTS CALENDAR
+   Source: EASTC Academic Almanac 2025/2026 (almanac.pdf).
+   Past events disappear automatically; edit here to update.
    ============================================================ */
-// In-memory data store (persists during session)
-let announcements = [
+const EVENT_CATEGORIES = {
+  academic: { label: 'Academic', icon: 'bi-book' },
+  holiday: { label: 'Public Holiday', icon: 'bi-sun' },
+  ceremony: { label: 'Ceremony', icon: 'bi-award' },
+  org: { label: 'Meetings & Governance', icon: 'bi-people' }
+};
+
+const EVENTS = [
+  { date: '2026-07-17', title: 'Academic Board Meeting', description: 'The EASTC Academic Board convenes to review academic matters, including Trimester Two results.', category: 'org', location: 'EASTC, Dar es Salaam' },
+  { date: '2026-07-20', title: 'Trimester Two Provisional Results (NTA 9 / MSc)', description: 'Release of Trimester Two provisional examination results for NTA 9 / MSc. Agric. Stats — appeals window opens.', category: 'academic', location: 'EASTC / SIS' },
+  { date: '2026-07-24', title: 'End of Teaching – Semester Two (NTA 4–8)', description: 'Teaching ends for NTA 4–8 Semester Two. Submission of signed coursework to sections/units closes and first-sitting tests end.', category: 'academic', location: 'EASTC' },
+  { date: '2026-07-27', endDate: '2026-07-31', title: 'Reading Week (NTA 4–8)', description: 'Reading week ahead of the final examinations. NTA 8 research project reports are due this week.', category: 'academic', location: 'EASTC' },
+  { date: '2026-07-29', endDate: '2026-07-30', title: 'Pre-Moderation of Final Examinations (NTA 4–8)', description: 'Pre-moderation of Second Semester final examinations and submission of practical examination requirements to ICT/Examinations officers.', category: 'academic', location: 'EASTC' },
+  { date: '2026-08-03', endDate: '2026-08-17', title: 'Second Semester Final Examinations (NTA 4–8)', description: 'Final examinations for all NTA 4–8 programmes. Check the official timetable and arrive early with your examination card.', category: 'academic', location: 'EASTC Examination Rooms' },
+  { date: '2026-08-08', title: 'Nane Nane Day', description: 'Farmers\' Day — public holiday across Tanzania.', category: 'holiday', location: 'Public Holiday' },
+  { date: '2026-08-18', title: 'Long Vacation Begins · Practical Training Starts', description: 'Long vacation for NTA 4–8 begins. Practical Training (NTA 5–6) and Field Attachment (NTA 7) start, and marking of Semester Two results begins.', category: 'academic', location: 'EASTC' },
+  { date: '2026-08-25', title: 'Maulid Day', description: 'Public holiday, subject to confirmation.', category: 'holiday', location: 'Public Holiday', tentative: true },
+  { date: '2026-08-28', title: 'Practical Training Ends (NTA 5–6)', description: 'Practical Training for NTA 5–6 ends; submission and marking of Practical Training reports begins.', category: 'academic', location: 'EASTC' },
+  { date: '2026-08-30', title: 'EASTC 61st Anniversary', description: 'Celebrating 61 years of the Eastern Africa Statistical Training Centre.', category: 'ceremony', location: 'EASTC Campus' },
+  { date: '2026-09-04', title: 'Marking of Semester Two Results Ends (NTA 4–8)', description: 'Marking and processing of NTA 4–8 Second Semester results concludes, ahead of the internal examiners\' meeting.', category: 'academic', location: 'EASTC' },
+  { date: '2026-09-08', title: 'Semester Two Provisional Results (NTA 4–8)', description: 'Release of Semester Two provisional examination results — the appeals window opens and preparations for the 12th Graduation Ceremony begin.', category: 'academic', location: 'EASTC / SIS' },
+  { date: '2026-09-30', title: 'Academic Year 2025/2026 Ends', description: 'Official close of the 2025/2026 academic year.', category: 'academic', location: 'EASTC' },
+  { date: '2026-10-01', title: 'Academic Year 2026/2027 Begins', description: 'The new academic year officially opens (administrative).', category: 'academic', location: 'EASTC' },
+  { date: '2026-10-12', title: 'Supplementary / First Sitting Examinations Begin', description: 'Supplementary and first-sitting examinations for all programmes begin, together with NTA 9 / MSc Third Trimester finals.', category: 'academic', location: 'EASTC' },
+  { date: '2026-10-14', title: 'Mwalimu Nyerere Day', description: 'Public holiday in honour of Mwalimu Julius Nyerere.', category: 'holiday', location: 'Public Holiday' },
+  { date: '2026-11-02', title: 'Orientation & Registration – 2026/2027', description: 'Opening date for NTA 4–9 / MSc programmes: orientation, registration and management meetings for the new academic year.', category: 'academic', location: 'EASTC', tentative: true },
+  { date: '2026-11-18', title: 'African Statistics Day', description: 'Celebrating the role of statistics in Africa\'s development — a signature day for the EASTC community.', category: 'ceremony', location: 'EASTC Campus' },
+  { date: '2026-11-19', title: 'Student Council', description: 'Student representatives meet to discuss welfare and academic matters.', category: 'org', location: 'EASTC' },
+  { date: '2026-11-20', title: '22nd Regional Senate Meeting', description: 'The EASTC Regional Senate holds its 22nd meeting.', category: 'org', location: 'EASTC' },
+  { date: '2026-11-26', title: '10th EASTC Convocation & AGM', description: 'The Centre\'s 10th convocation and annual general meeting.', category: 'ceremony', location: 'EASTC', tentative: true },
+  { date: '2026-11-27', title: '12th EASTC Graduation Ceremony', description: 'The 12th graduation ceremony of the Eastern Africa Statistical Training Centre — congratulations, graduands!', category: 'ceremony', location: 'EASTC Campus', tentative: true }
+];
+
+function todayISO() {
+  const d = new Date();
+  return d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
+}
+
+function upcomingEvents() {
+  const today = todayISO();
+  return EVENTS
+    .filter(e => (e.endDate || e.date) >= today)
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function isOngoing(e) {
+  const today = todayISO();
+  return e.date <= today && today <= (e.endDate || e.date);
+}
+
+function dateBadge(iso) {
+  const d = new Date(iso + 'T00:00:00');
+  return {
+    day: String(d.getDate()).padStart(2, '0'),
+    month: d.toLocaleDateString('en-GB', { month: 'short' })
+  };
+}
+
+function renderTopBarTicker() {
+  const el = document.getElementById('topBarNext');
+  if (!el) return;
+  const next = upcomingEvents()[0];
+  if (!next) { el.textContent = ''; return; }
+  el.innerHTML = '<i class="bi bi-calendar-event" aria-hidden="true"></i> Next: ' +
+    escHtml(next.title) + ' — ' + formatDate(next.date);
+}
+
+function renderHomeEvents() {
+  const wrap = document.getElementById('homeEvents');
+  if (!wrap) return;
+  const list = upcomingEvents().slice(0, 4);
+
+  wrap.innerHTML = list.map(e => {
+    const b = dateBadge(e.date);
+    return `
+      <div class="event-item">
+        <div class="event-date-box" aria-hidden="true">
+          <div class="event-day">${b.day}</div>
+          <div class="event-month">${b.month}</div>
+        </div>
+        <div>
+          <div class="event-info-title">${escHtml(e.title)}${e.tentative ? ' <span class="tag-tentative">Tentative</span>' : ''}</div>
+          <div class="event-info-loc"><i class="bi bi-geo-alt" aria-hidden="true"></i> ${escHtml(e.location)}${isOngoing(e) ? ' · <span class="tag-ongoing">Happening now</span>' : ''}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderEventsPage() {
+  const wrap = document.getElementById('eventsTimeline');
+  if (!wrap) return;
+  const list = upcomingEvents();
+
+  if (!list.length) {
+    wrap.innerHTML = '<p class="events-empty">No upcoming events at the moment — check back soon or download the almanac below.</p>';
+    return;
+  }
+
+  const groups = new Map();
+  list.forEach(e => {
+    const key = e.date.slice(0, 7);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(e);
+  });
+
+  let html = '';
+  groups.forEach((events, key) => {
+    const label = new Date(key + '-01T00:00:00')
+      .toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+    html += `<h3 class="events-month">${label}</h3>`;
+    html += events.map(eventRow).join('');
+  });
+  wrap.innerHTML = html;
+}
+
+function eventRow(e) {
+  const b = dateBadge(e.date);
+  const cat = EVENT_CATEGORIES[e.category] || EVENT_CATEGORIES.academic;
+  const range = e.endDate ? formatDate(e.date) + ' – ' + formatDate(e.endDate) : formatDate(e.date);
+
+  return `
+    <article class="event-row${isOngoing(e) ? ' is-ongoing' : ''}">
+      <div class="event-date-box" aria-hidden="true">
+        <div class="event-day">${b.day}</div>
+        <div class="event-month">${b.month}</div>
+      </div>
+      <div class="event-row-body">
+        <div class="event-row-top">
+          <span class="event-chip event-chip--${e.category}"><i class="bi ${cat.icon}" aria-hidden="true"></i> ${cat.label}</span>
+          ${e.tentative ? '<span class="event-chip event-chip--tentative">Tentative</span>' : ''}
+          ${isOngoing(e) ? '<span class="event-chip event-chip--ongoing">Happening now</span>' : ''}
+        </div>
+        <h4 class="event-row-title">${escHtml(e.title)}</h4>
+        <p class="event-row-desc">${escHtml(e.description)}</p>
+        <div class="event-row-meta">
+          <span><i class="bi bi-calendar3" aria-hidden="true"></i> ${range}</span>
+          <span><i class="bi bi-geo-alt" aria-hidden="true"></i> ${escHtml(e.location)}</span>
+        </div>
+      </div>
+    </article>`;
+}
+
+/* ============================================================
+   7. DATA STORE (localStorage with seed fallback)
+   ============================================================ */
+const LS_ANNOUNCEMENTS = 'eastcso.announcements.v1';
+const LS_MESSAGES = 'eastcso.messages.v1';
+
+const SEED_ANNOUNCEMENTS = [
   {
-    id: 1,
-    title: 'Mwisho wa Mradi wa Web Design',
+    id: 'seed-1',
+    title: 'Final Examinations – Semester Two Timetable',
     category: 'Academic',
-    description: 'Tarehe ya mwisho ya kuwasilisha mradi wa Web Design and Development ni 30 Juni 2026 kupitia Moodle. Hakikisha kazi iko tayari.',
-    date: '2026-06-30',
+    description: 'Second Semester Final Examinations for NTA 4–8 run from 3 to 17 August 2026. Check the official timetable on the notice boards and SIS, and carry your examination card.',
+    date: '2026-08-03',
     status: 'Active',
-    createdAt: new Date().toLocaleDateString()
+    createdAt: '15/07/2026'
   },
   {
-    id: 2,
-    title: 'Uwasilishaji wa Vikundi – Julai 2026',
-    category: 'Academic',
-    description: 'Group Presentations zitafanyika wiki ya kwanza ya Julai 2026. Tathmini itajumuisha alama za kikundi na za mtu binafsi.',
-    date: '2026-07-07',
+    id: 'seed-2',
+    title: 'Reading Week Starts 27 July',
+    category: 'Notice',
+    description: 'Reading week for NTA 4–8 runs from 27 to 31 July 2026. NTA 8 research project reports are due the same week — plan your revision early.',
+    date: '2026-07-27',
     status: 'Active',
-    createdAt: new Date().toLocaleDateString()
+    createdAt: '15/07/2026'
   },
   {
-    id: 3,
+    id: 'seed-3',
+    title: 'EASTC 61st Anniversary Celebrations',
+    category: 'General',
+    description: 'EASTC marks its 61st anniversary on 30 August 2026. Details of student activities and celebrations will be announced by the executive.',
+    date: '2026-08-30',
+    status: 'Active',
+    createdAt: '15/07/2026'
+  },
+  {
+    id: 'seed-4',
     title: 'Night of Awards – Wasomi League 2025/26',
     category: 'Sports',
-    description: 'Sherehe ya utoaji tuzo za Ligi ya Wasomi ilifanyika tarehe 01 May 2026 saa 12 jioni katika Temp Class. Mgeni Rasmi: Rais Macha Mario.',
+    description: 'The Wasomi League awards ceremony was held on 1 May 2026 at 6:00 PM in the Temp Class, with President Mario Macha as guest of honour. Thank you to everyone who attended!',
     date: '2026-05-01',
     status: 'Archived',
     createdAt: '01/05/2026'
-  },
-  {
-    id: 4,
-    title: 'EASTCSO Kikao cha Uongozi',
-    category: 'Notice',
-    description: 'Kikao cha dharura cha uongozi wa EASTCSO kitafanyika ili kujadili masuala ya wanafunzi na ustawi wa jumla.',
-    date: '2026-07-15',
-    status: 'Active',
-    createdAt: new Date().toLocaleDateString()
   }
 ];
 
-let nextId = 5;
-let editingId = null;
-let deleteTargetId = null;
+let announcements = [];
+let messages = [];
 
-// ---- Render table ----
+function loadStore(key, seeds) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.v === 1 && Array.isArray(parsed.items)) return parsed.items;
+    }
+  } catch (err) {
+    // Corrupt or unavailable storage — fall through to seeds
+  }
+  persist(key, seeds);
+  return seeds.slice();
+}
+
+function persist(key, items) {
+  try {
+    localStorage.setItem(key, JSON.stringify({ v: 1, items }));
+  } catch (err) {
+    // Storage unavailable (e.g. private mode) — data stays in memory
+  }
+}
+
+/* ============================================================
+   8. ANNOUNCEMENTS – ADMIN CRUD (#/admin)
+   ============================================================ */
+let editingId = null;
+
+function refreshAnnouncementViews() {
+  renderTable();
+  renderPublicNotices();
+  renderHomeNotices();
+}
+
 function renderTable() {
   const tbody = document.getElementById('tableBody');
   const emptyState = document.getElementById('emptyState');
   const recordCount = document.getElementById('recordCount');
-  const searchVal = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+  if (!tbody) return;
 
+  const searchVal = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
   const filtered = announcements.filter(a =>
     a.title.toLowerCase().includes(searchVal) ||
     a.category.toLowerCase().includes(searchVal) ||
@@ -236,16 +491,15 @@ function renderTable() {
     a.status.toLowerCase().includes(searchVal)
   );
 
-  if (!tbody) return;
   tbody.innerHTML = '';
 
-  if (filtered.length === 0) {
-    if (emptyState) emptyState.style.display = 'block';
+  if (!filtered.length) {
+    if (emptyState) emptyState.hidden = false;
     if (recordCount) recordCount.textContent = 'No records found.';
     return;
   }
 
-  if (emptyState) emptyState.style.display = 'none';
+  if (emptyState) emptyState.hidden = true;
   if (recordCount) recordCount.textContent = `Showing ${filtered.length} of ${announcements.length} record(s)`;
 
   filtered.forEach((ann, i) => {
@@ -253,20 +507,20 @@ function renderTable() {
       : ann.category === 'Notice' ? 'badge-notice' : 'badge-active';
 
     const statusBadge = ann.status === 'Active'
-      ? '<span class="badge badge-active">✅ Active</span>'
-      : '<span class="badge" style="background:#e9ecef;color:#6c757d;">📦 Archived</span>';
+      ? '<span class="badge badge-active"><i class="bi bi-check-circle" aria-hidden="true"></i> Active</span>'
+      : '<span class="badge badge-archived"><i class="bi bi-archive" aria-hidden="true"></i> Archived</span>';
 
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${i + 1}</td>
-      <td><strong>${escHtml(ann.title)}</strong><br/><small style="color:var(--gray-500);font-size:0.75rem;">${escHtml(ann.description.substring(0, 50))}${ann.description.length > 50 ? '...' : ''}</small></td>
+      <td><strong>${escHtml(ann.title)}</strong><br/><small>${escHtml(ann.description.substring(0, 50))}${ann.description.length > 50 ? '...' : ''}</small></td>
       <td><span class="badge ${catBadgeClass}">${escHtml(ann.category)}</span></td>
-      <td style="white-space:nowrap;">${formatDate(ann.date)}</td>
+      <td class="nowrap">${formatDate(ann.date)}</td>
       <td>${statusBadge}</td>
       <td>
         <div class="table-actions">
-          <button class="btn-edit" onclick="editAnnouncement(${ann.id})">✏️ Edit</button>
-          <button class="btn-delete" onclick="confirmDelete(${ann.id})">🗑️ Delete</button>
+          <button type="button" class="btn-edit" data-action="edit" data-id="${escHtml(ann.id)}"><i class="bi bi-pencil-square" aria-hidden="true"></i> Edit</button>
+          <button type="button" class="btn-delete" data-action="delete" data-id="${escHtml(ann.id)}"><i class="bi bi-trash3" aria-hidden="true"></i> Delete</button>
         </div>
       </td>
     `;
@@ -274,7 +528,6 @@ function renderTable() {
   });
 }
 
-// ---- Save (Create / Update) ----
 function saveAnnouncement() {
   const title = document.getElementById('annTitle')?.value.trim();
   const category = document.getElementById('annCategory')?.value;
@@ -284,102 +537,106 @@ function saveAnnouncement() {
 
   clearFormAlert();
 
-  if (!title) { showFormAlert('⚠️ Tafadhali weka kichwa cha tangazo.', 'error'); return; }
-  if (!desc) { showFormAlert('⚠️ Tafadhali weka maelezo.', 'error'); return; }
+  if (!title) { showFormAlert('Please enter a title for the announcement.', 'error'); return; }
+  if (!desc) { showFormAlert('Please enter a description.', 'error'); return; }
 
   if (editingId !== null) {
-    // UPDATE
     const idx = announcements.findIndex(a => a.id === editingId);
     if (idx !== -1) {
       announcements[idx] = { ...announcements[idx], title, category, description: desc, date, status };
-      showToast('✅ Tangazo limesasishwa!', 'success');
+      showToast('Announcement updated.', 'success');
     }
     editingId = null;
-    document.getElementById('formTitle').textContent = '➕ Add New Announcement';
-    document.getElementById('editId').value = '';
+    setFormTitle('Add New Announcement');
+    const editEl = document.getElementById('editId');
+    if (editEl) editEl.value = '';
   } else {
-    // CREATE
-    announcements.unshift({ id: nextId++, title, category, description: desc, date, status, createdAt: new Date().toLocaleDateString() });
-    showToast('✅ Tangazo jipya limeongezwa!', 'success');
+    announcements.unshift({
+      id: 'a-' + Date.now(),
+      title, category, description: desc, date, status,
+      createdAt: new Date().toLocaleDateString('en-GB')
+    });
+    showToast('New announcement added.', 'success');
   }
 
+  persist(LS_ANNOUNCEMENTS, announcements);
   clearForm();
-  renderTable();
+  refreshAnnouncementViews();
 }
 
-// ---- Edit ----
 function editAnnouncement(id) {
   const ann = announcements.find(a => a.id === id);
   if (!ann) return;
 
   editingId = id;
-  document.getElementById('formTitle').textContent = '✏️ Edit Announcement';
-  document.getElementById('annTitle').value = ann.title;
-  document.getElementById('annCategory').value = ann.category;
-  document.getElementById('annDesc').value = ann.description;
-  document.getElementById('annDate').value = ann.date;
-  document.getElementById('annStatus').value = ann.status;
+  setFormTitle('Edit Announcement');
+  setValue('annTitle', ann.title);
+  setValue('annCategory', ann.category);
+  setValue('annDesc', ann.description);
+  setValue('annDate', ann.date);
+  setValue('annStatus', ann.status);
 
-  // Scroll to form
-  document.querySelector('.crud-form-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelector('.crud-form-card')?.scrollIntoView({
+    behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    block: 'start'
+  });
   clearFormAlert();
 }
 
-// ---- Delete (with confirmation) ----
 function confirmDelete(id) {
   const ann = announcements.find(a => a.id === id);
   if (!ann) return;
-  deleteTargetId = id;
 
-  const confirmed = window.confirm(`Je, una uhakika unataka kufuta tangazo:\n"${ann.title}"?\n\nHii haiwezi kurudishwa.`);
-  if (confirmed) deleteAnnouncement();
+  const confirmed = window.confirm(`Are you sure you want to delete:\n"${ann.title}"?\n\nThis cannot be undone.`);
+  if (!confirmed) return;
+
+  announcements = announcements.filter(a => a.id !== id);
+  persist(LS_ANNOUNCEMENTS, announcements);
+  if (editingId === id) cancelEdit();
+  refreshAnnouncementViews();
+  showToast('Announcement deleted.', 'error');
 }
 
-function deleteAnnouncement() {
-  if (deleteTargetId === null) return;
-  announcements = announcements.filter(a => a.id !== deleteTargetId);
-  deleteTargetId = null;
-  if (editingId !== null) cancelEdit();
-  renderTable();
-  showToast('🗑️ Tangazo limefutwa.', 'error');
-}
-
-// ---- Cancel edit ----
 function cancelEdit() {
   editingId = null;
-  document.getElementById('formTitle').textContent = '➕ Add New Announcement';
-  document.getElementById('editId').value = '';
+  setFormTitle('Add New Announcement');
+  const editEl = document.getElementById('editId');
+  if (editEl) editEl.value = '';
   clearForm();
   clearFormAlert();
 }
 
-// ---- Clear form ----
 function clearForm() {
-  ['annTitle', 'annDesc', 'annDate'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
-  });
-  const cat = document.getElementById('annCategory');
-  const stat = document.getElementById('annStatus');
-  if (cat) cat.value = 'Notice';
-  if (stat) stat.value = 'Active';
+  ['annTitle', 'annDesc'].forEach(id => setValue(id, ''));
+  setValue('annCategory', 'Notice');
+  setValue('annStatus', 'Active');
+  setDefaultDate();
 }
 
-// ---- Form alerts ----
+function setFormTitle(text) {
+  const el = document.getElementById('formTitle');
+  if (el) el.textContent = text;
+}
+
+function setValue(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.value = value;
+}
+
 function showFormAlert(msg, type) {
   const el = document.getElementById('formAlert');
   if (!el) return;
   el.className = 'alert ' + type;
   el.textContent = msg;
 }
+
 function clearFormAlert() {
   const el = document.getElementById('formAlert');
   if (el) { el.className = 'alert'; el.textContent = ''; }
 }
 
-// ---- Export CSV ----
 function exportCSV() {
-  if (!announcements.length) { showToast('Hakuna data ya ku-export.', 'error'); return; }
+  if (!announcements.length) { showToast('There is no data to export.', 'error'); return; }
 
   const headers = ['#', 'Title', 'Category', 'Description', 'Date', 'Status', 'Created'];
   const rows = announcements.map((a, i) => [
@@ -400,13 +657,80 @@ function exportCSV() {
   a.download = 'EASTCSO_Announcements.csv';
   a.click();
   URL.revokeObjectURL(url);
-  showToast('📤 CSV exported successfully!', 'success');
+  showToast('CSV exported successfully.', 'success');
+}
+
+function initAdminUI() {
+  document.getElementById('saveAnnBtn')?.addEventListener('click', saveAnnouncement);
+  document.getElementById('cancelAnnBtn')?.addEventListener('click', cancelEdit);
+  document.getElementById('exportCsvBtn')?.addEventListener('click', exportCSV);
+  document.getElementById('searchInput')?.addEventListener('input', renderTable);
+  document.getElementById('searchBtn')?.addEventListener('click', renderTable);
+
+  document.getElementById('tableBody')?.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    if (btn.dataset.action === 'edit') editAnnouncement(btn.dataset.id);
+    if (btn.dataset.action === 'delete') confirmDelete(btn.dataset.id);
+  });
 }
 
 /* ============================================================
-   7. CONTACT FORM
+   9. ANNOUNCEMENTS – PUBLIC VIEWS
    ============================================================ */
-let messages = [];
+function activeNotices() {
+  return announcements
+    .filter(a => a.status === 'Active')
+    .slice()
+    .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+}
+
+function renderPublicNotices() {
+  const wrap = document.getElementById('publicNotices');
+  if (!wrap) return;
+  const active = activeNotices();
+
+  if (!active.length) {
+    wrap.innerHTML = `
+      <div class="empty-state">
+        <i class="bi bi-inbox empty-icon" aria-hidden="true"></i>
+        <p>No notices published at the moment — check back soon.</p>
+      </div>`;
+    return;
+  }
+
+  wrap.innerHTML = active.map(a => `
+    <article class="notice-card">
+      <div class="notice-head">
+        <span class="badge badge-cat">${escHtml(a.category)}</span>
+        <span class="notice-date"><i class="bi bi-calendar3" aria-hidden="true"></i> ${formatDate(a.date)}</span>
+      </div>
+      <h3 class="notice-title">${escHtml(a.title)}</h3>
+      <p class="notice-text">${escHtml(a.description)}</p>
+    </article>`).join('');
+}
+
+function renderHomeNotices() {
+  const wrap = document.getElementById('homeNotices');
+  if (!wrap) return;
+  const latest = activeNotices().slice(0, 3);
+
+  if (!latest.length) {
+    wrap.innerHTML = '<p class="announcement-text">No notices published at the moment.</p>';
+    return;
+  }
+
+  wrap.innerHTML = latest.map(a => `
+    <div class="announcement-item">
+      <div class="announcement-date"><i class="bi bi-calendar3" aria-hidden="true"></i> ${formatDate(a.date)}</div>
+      <p class="announcement-text">${escHtml(a.title)} — ${escHtml(a.description.substring(0, 90))}${a.description.length > 90 ? '...' : ''}</p>
+    </div>`).join('');
+}
+
+/* ============================================================
+   10. CONTACT FORM (saves locally + opens WhatsApp)
+   ============================================================ */
+const WHATSAPP_NUMBER = '255693827599';
 
 function submitContact() {
   const name = document.getElementById('contactName')?.value.trim();
@@ -417,24 +741,24 @@ function submitContact() {
   const alertEl = document.getElementById('contactAlert');
   if (alertEl) { alertEl.className = 'alert'; alertEl.textContent = ''; }
 
-  if (!name) { showAlert('contactAlert', '⚠️ Tafadhali weka jina lako.', 'error'); return; }
-  if (!email) { showAlert('contactAlert', '⚠️ Tafadhali weka nambari au barua pepe.', 'error'); return; }
-  if (!message) { showAlert('contactAlert', '⚠️ Tafadhali andika ujumbe.', 'error'); return; }
+  if (!name) { showAlert('contactAlert', 'Please enter your name.', 'error'); return; }
+  if (!email) { showAlert('contactAlert', 'Please enter your phone number or email.', 'error'); return; }
+  if (!message) { showAlert('contactAlert', 'Please write a message.', 'error'); return; }
 
   messages.push({
-    id: Date.now(),
+    id: 'm-' + Date.now(),
     name, email, subject, message,
-    time: new Date().toLocaleString()
+    time: new Date().toLocaleString('en-GB')
   });
+  persist(LS_MESSAGES, messages);
 
-  // Clear form
-  ['contactName', 'contactEmail', 'contactMessage'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = '';
-  });
+  const text = `Hello EASTCSO!\nName: ${name}\nSubject: ${subject}\nContact: ${email}\n\n${message}`;
+  window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
 
-  showAlert('contactAlert', `✅ Asante ${name}! Ujumbe wako umepokewa. Tutawasiliana nawe hivi karibuni.`, 'success');
-  showToast('📨 Ujumbe umetumwa!', 'success');
+  ['contactName', 'contactEmail', 'contactMessage'].forEach(id => setValue(id, ''));
 
+  showAlert('contactAlert', `Thank you, ${name}! WhatsApp is opening with your message prefilled — press send there to deliver it.`, 'success');
+  showToast('Opening WhatsApp...', 'success');
   renderMessages();
 }
 
@@ -442,43 +766,27 @@ function renderMessages() {
   const list = document.getElementById('messagesList');
   const container = document.getElementById('messagesContainer');
   const count = document.getElementById('msgCount');
-
   if (!list || !container) return;
 
-  if (messages.length === 0) { list.style.display = 'none'; return; }
+  if (!messages.length) { list.hidden = true; return; }
 
-  list.style.display = 'block';
+  list.hidden = false;
   if (count) count.textContent = messages.length;
 
   container.innerHTML = messages.slice().reverse().map(m => `
-    <div style="background:var(--off-white);border-radius:8px;padding:14px;margin-bottom:10px;border-left:3px solid var(--gold);">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
-        <strong style="color:var(--navy);font-size:0.9rem;">👤 ${escHtml(m.name)}</strong>
-        <span style="font-size:0.72rem;color:var(--gray-500);">🕐 ${m.time}</span>
+    <div class="message-card">
+      <div class="message-head">
+        <strong class="message-name"><i class="bi bi-person-circle" aria-hidden="true"></i> ${escHtml(m.name)}</strong>
+        <span class="message-time">${escHtml(m.time)}</span>
       </div>
-      <div style="font-size:0.78rem;color:var(--gold);margin-bottom:6px;">📌 ${escHtml(m.subject)} | 📞 ${escHtml(m.email)}</div>
-      <p style="font-size:0.86rem;color:var(--gray-700);line-height:1.6;">${escHtml(m.message)}</p>
+      <div class="message-meta">${escHtml(m.subject)} · ${escHtml(m.email)}</div>
+      <p class="message-body">${escHtml(m.message)}</p>
     </div>
   `).join('');
 }
 
 /* ============================================================
-   8. MODAL HELPERS
-   ============================================================ */
-function openModal(id) {
-  const modal = document.getElementById(id);
-  if (modal) modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal(id) {
-  const modal = document.getElementById(id);
-  if (modal) modal.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-/* ============================================================
-   9. TOAST NOTIFICATIONS
+   11. TOAST NOTIFICATIONS (XSS-safe)
    ============================================================ */
 function showToast(msg, type = 'success') {
   const container = document.getElementById('toastContainer');
@@ -486,19 +794,25 @@ function showToast(msg, type = 'success') {
 
   const toast = document.createElement('div');
   toast.className = 'toast ' + type;
-  toast.innerHTML = `<span>${msg}</span>`;
+
+  const icon = document.createElement('i');
+  icon.className = 'bi ' + (type === 'error' ? 'bi-exclamation-circle' : 'bi-check-circle');
+  icon.setAttribute('aria-hidden', 'true');
+
+  const text = document.createElement('span');
+  text.textContent = msg;
+
+  toast.append(icon, text);
   container.appendChild(toast);
 
   setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateX(40px)';
-    toast.style.transition = 'all 0.4s ease';
+    toast.classList.add('is-leaving');
     setTimeout(() => toast.remove(), 400);
   }, 3000);
 }
 
 /* ============================================================
-   10. UTILITY FUNCTIONS
+   12. UTILITIES
    ============================================================ */
 function showAlert(targetId, msg, type) {
   const el = document.getElementById(targetId);
@@ -509,7 +823,7 @@ function showAlert(targetId, msg, type) {
 
 function escHtml(str) {
   const d = document.createElement('div');
-  d.textContent = str || '';
+  d.textContent = str == null ? '' : String(str);
   return d.innerHTML;
 }
 
@@ -517,65 +831,40 @@ function formatDate(dateStr) {
   if (!dateStr) return '—';
   try {
     const d = new Date(dateStr + 'T00:00:00');
+    if (Number.isNaN(d.getTime())) return dateStr;
     return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   } catch { return dateStr; }
 }
 
+function setDefaultDate() {
+  setValue('annDate', todayISO());
+}
+
 /* ============================================================
-   11. SCROLL EFFECTS – Header shadow
+   13. SCROLL EFFECT – header shadow
    ============================================================ */
 window.addEventListener('scroll', () => {
-  const header = document.querySelector('.site-header');
-  if (!header) return;
-  if (window.scrollY > 20) {
-    header.style.boxShadow = '0 4px 32px rgba(10,22,40,0.28)';
-  } else {
-    header.style.boxShadow = '';
-  }
-});
+  document.querySelector('.site-header')?.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
 
 /* ============================================================
-   12. FOOTER LINKS – navigate from footer
-   ============================================================ */
-function initFooterLinks() {
-  document.querySelectorAll('.footer-link[onclick]').forEach(el => {
-    // already wired via onclick attr
-  });
-}
-
-/* ============================================================
-   13. SET TODAY'S DATE DEFAULT ON CRUD FORM
-   ============================================================ */
-function setDefaultDate() {
-  const dateInput = document.getElementById('annDate');
-  if (dateInput) {
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.value = today;
-  }
-}
-
-/* ============================================================
-   14. INIT ON DOM READY
+   14. INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
-  // Start with home page active
-  navigateTo('home');
+  announcements = loadStore(LS_ANNOUNCEMENTS, SEED_ANNOUNCEMENTS);
+  messages = loadStore(LS_MESSAGES, []);
 
-  // Init slideshow
+  initMenu();
   initSlideshow();
+  initGallery();
+  initAdminUI();
+  document.getElementById('contactSendBtn')?.addEventListener('click', submitContact);
 
-  // Set default date for CRUD form
   setDefaultDate();
+  renderTopBarTicker();
 
-  // Stats animation on initial view
-  setTimeout(initStats, 400);
+  render(); // initial route from location.hash (defaults to home)
 
-  // Init footer links
-  initFooterLinks();
-
-  // Render initial CRUD table (in background)
-  renderTable();
-
-  console.log('%cEASTCSO Website Loaded ✓', 'color:#C8922A;font-weight:bold;font-size:14px;');
+  console.log('%cEASTCSO Website Loaded', 'color:#C8922A;font-weight:bold;font-size:14px;');
   console.log('%cServing Students Through Students – 2025/2026', 'color:#0A1628;font-size:12px;');
 });
