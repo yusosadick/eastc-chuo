@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Announcements — EASTCSO</title>
+  <meta name="description" content="Official notices, updates and important information from the EASTCSO office." />
+  <meta name="theme-color" content="#0a0533" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-head">
+  <div class="head-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-badge">ESO</span>
+      <span class="logo-text"><strong>EASTCSO</strong><span>EASTC Students Organization</span></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="events.html">Events</a>
+    </nav>
+    <div class="head-actions">
+      <a class="btn-contact" href="contact.html">Contact Us</a>
+      <button type="button" class="icon-btn" id="darkBtn" aria-label="Switch to dark mode"><i class="bi bi-moon-stars" aria-hidden="true"></i></button>
+      <button type="button" class="icon-btn hamburger" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><i class="bi bi-list" aria-hidden="true"></i></button>
+    </div>
+  </div>
+</header>
+<nav class="nav-mobile" id="mobileMenu" aria-label="Mobile navigation">
+  <a href="index.html"><i class="bi bi-house-door" aria-hidden="true"></i> Home</a>
+  <a href="about.html"><i class="bi bi-info-circle" aria-hidden="true"></i> About</a>
+  <a href="events.html"><i class="bi bi-calendar-event" aria-hidden="true"></i> Events</a>
+  <a href="leaders.html"><i class="bi bi-people" aria-hidden="true"></i> Leadership</a>
+  <a href="services.html"><i class="bi bi-mortarboard" aria-hidden="true"></i> Services</a>
+  <a href="announcements.html"><i class="bi bi-megaphone" aria-hidden="true"></i> Announcements</a>
+  <a href="members.html"><i class="bi bi-person-badge" aria-hidden="true"></i> Membership</a>
+  <a href="contact.html"><i class="bi bi-envelope" aria-hidden="true"></i> Contact</a>
+</nav>
+
+<main id="main">
+
+  <div class="page-hero page-hero--image">
+    <div class="page-hero-bg bg-campus"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-inner">
+      <div class="section-label">Stay Informed</div>
+      <h1>Announcements</h1>
+      <p>Official notices, updates, and important information from the EASTCSO office.</p>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="page-grid">
+      <div>
+        <div class="filter-bar" role="group" aria-label="Filter announcements by category">
+          <button type="button" class="filter-btn active" data-filter="all">All</button>
+          <button type="button" class="filter-btn" data-filter="urgent"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> Urgent</button>
+          <button type="button" class="filter-btn" data-filter="event"><i class="bi bi-calendar-event" aria-hidden="true"></i> Event</button>
+          <button type="button" class="filter-btn" data-filter="info"><i class="bi bi-info-circle" aria-hidden="true"></i> Information</button>
+          <button type="button" class="filter-btn" data-filter="welfare"><i class="bi bi-heart-pulse" aria-hidden="true"></i> Welfare</button>
+          <button type="button" class="filter-btn" data-filter="general"><i class="bi bi-megaphone" aria-hidden="true"></i> General</button>
+        </div>
+
+        <div class="ann-list" id="annList"></div>
+        <p class="empty-msg" id="annEmpty" hidden>No announcements in this category.</p>
+
+        <!-- Staff tool: post/edit announcements (saved in this browser) -->
+        <div class="staff-form">
+          <h3><i class="bi bi-pencil-square" aria-hidden="true"></i> <span id="formTitle">Post New Announcement</span></h3>
+          <p class="staff-note">Internal tool for the EASTCSO office — announcements are saved in this browser and appear on the homepage too.</p>
+          <div class="form-group">
+            <label for="annTitle">Title</label>
+            <input type="text" id="annTitle" name="annTitle" placeholder="e.g. Library Hours Extended During Exams" />
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="annCat">Category</label>
+              <select id="annCat" name="annCat">
+                <option value="">Select category</option>
+                <option value="urgent">Urgent</option>
+                <option value="event">Event</option>
+                <option value="info">Information</option>
+                <option value="welfare">Welfare</option>
+                <option value="general">General</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="annDate">Date</label>
+              <input type="date" id="annDate" name="annDate" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="annMessage">Message</label>
+            <textarea id="annMessage" name="annMessage" placeholder="Write the full announcement here…"></textarea>
+          </div>
+          <input type="hidden" id="editIdx" value="-1" />
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary btn-sm" id="annSaveBtn"><i class="bi bi-check-lg" aria-hidden="true"></i> Post Announcement</button>
+            <button type="button" class="btn btn-outline btn-sm" id="annClearBtn"><i class="bi bi-x-lg" aria-hidden="true"></i> Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="sidebar-card">
+          <h3><i class="bi bi-bar-chart" aria-hidden="true"></i> Summary</h3>
+          <div class="stats-mini">
+            <div class="stat-mini-card"><strong id="cntAll">0</strong><span>Total</span></div>
+            <div class="stat-mini-card"><strong id="cntUrgent">0</strong><span>Urgent</span></div>
+            <div class="stat-mini-card"><strong id="cntEvent">0</strong><span>Events</span></div>
+            <div class="stat-mini-card"><strong id="cntInfo">0</strong><span>Info</span></div>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <h3><i class="bi bi-pin-angle" aria-hidden="true"></i> Notice Board Key</h3>
+          <ul class="side-list">
+            <li><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <strong>Urgent</strong> — deadlines, emergencies</li>
+            <li><i class="bi bi-calendar-event" aria-hidden="true"></i> <strong>Event</strong> — activities &amp; programmes</li>
+            <li><i class="bi bi-info-circle" aria-hidden="true"></i> <strong>Info</strong> — general information</li>
+            <li><i class="bi bi-heart-pulse" aria-hidden="true"></i> <strong>Welfare</strong> — health &amp; support</li>
+            <li><i class="bi bi-megaphone" aria-hidden="true"></i> <strong>General</strong> — miscellaneous updates</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-card">
+          <h3><i class="bi bi-link-45deg" aria-hidden="true"></i> Quick Links</h3>
+          <ul class="quick-links">
+            <li><a href="events.html"><i class="bi bi-calendar-event" aria-hidden="true"></i> Upcoming Events</a></li>
+            <li><a href="services.html"><i class="bi bi-mortarboard" aria-hidden="true"></i> Student Services</a></li>
+            <li><a href="members.html"><i class="bi bi-person-badge" aria-hidden="true"></i> Membership</a></li>
+            <li><a href="contact.html"><i class="bi bi-envelope" aria-hidden="true"></i> Contact Office</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-card">
+          <h3><i class="bi bi-telephone" aria-hidden="true"></i> Office Contact</h3>
+          <ul class="side-list">
+            <li><i class="bi bi-envelope" aria-hidden="true"></i> <a href="mailto:students@eastc.ac.tz">students@eastc.ac.tz</a></li>
+            <li><i class="bi bi-telephone" aria-hidden="true"></i> <a href="tel:+255222772771">+255 22 277 2771</a></li>
+            <li><i class="bi bi-clock" aria-hidden="true"></i> Mon–Fri, 9 AM – 4 PM</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-foot">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>EASTCSO</h4>
+        <p>Representing the voice of students at the Eastern Africa Statistical Training Centre since 1985.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="about.html"><i class="bi bi-chevron-right" aria-hidden="true"></i> About</a>
+        <a href="events.html"><i class="bi bi-chevron-right" aria-hidden="true"></i> Events</a>
+        <a href="leaders.html"><i class="bi bi-chevron-right" aria-hidden="true"></i> Leadership</a>
+        <a href="services.html"><i class="bi bi-chevron-right" aria-hidden="true"></i> Services</a>
+      </div>
+      <div class="footer-col">
+        <h4>Students</h4>
+        <a href="announcements.html"><i class="bi bi-chevron-right" aria-hidden="true"></i> Announcements</a>
+        <a href="members.html"><i class="bi bi-chevron-right" aria-hidden="true"></i> Membership</a>
+        <a href="contact.html"><i class="bi bi-chevron-right" aria-hidden="true"></i> Contact Office</a>
+        <a href="almanac.pdf" download><i class="bi bi-chevron-right" aria-hidden="true"></i> Academic Almanac (PDF)</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p><i class="bi bi-geo-alt" aria-hidden="true"></i>EASTC Campus, Dar es Salaam</p>
+        <a href="mailto:students@eastc.ac.tz"><i class="bi bi-envelope" aria-hidden="true"></i> students@eastc.ac.tz</a>
+        <a href="tel:+255222772771"><i class="bi bi-telephone" aria-hidden="true"></i> +255 22 277 2771</a>
+        <p><i class="bi bi-clock" aria-hidden="true"></i>Mon–Fri, 9 AM – 4 PM</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 EASTC Students Organization</span>
+      <span>Dar es Salaam, Tanzania</span>
+    </div>
+  </div>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="site.js"></script>
+</body>
+</html>
