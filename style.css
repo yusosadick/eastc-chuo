@@ -145,6 +145,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
 }
+/* The layout wrapper is a grid, so header/main/footer are grid items
+   whose default min-width:auto would let any wide table inside force
+   the whole page wider than the viewport. Make them shrinkable so
+   .table-scroll wrappers can scroll internally instead. */
+.site-layout > * { min-width: 0; }
 
 /* =============================================
    HEADER
