@@ -87,10 +87,8 @@ button { font-family: inherit; cursor: pointer; }
 .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .logo-badge {
   width: 44px; height: 44px; border-radius: 50%;
-  background: var(--gold); color: var(--indigo);
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 14px; flex-shrink: 0;
-  font-family: var(--font-head);
+  background: #fff; object-fit: contain; padding: 2px;
+  border: 2px solid var(--gold); flex-shrink: 0;
 }
 .logo-text { display: flex; flex-direction: column; line-height: 1.25; }
 .logo-text strong { font-size: 15px; font-weight: 800; color: var(--ink); font-family: var(--font-head); }
