@@ -2014,6 +2014,9 @@ a.footer-text:hover { color: var(--gold); }
 /* Nav collapses to hamburger below 992px */
 @media (max-width: 991px) {
   .menu-toggle { display: flex; }
+  /* With the nav collapsed, space-between would strand the theme toggle
+     mid-header; push it right so it clusters with the hamburger. */
+  .theme-toggle { margin-left: auto; }
   .main-nav {
     display: none;
     position: absolute;
