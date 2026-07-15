@@ -1169,6 +1169,10 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   align-items: start;
   margin-bottom: var(--space-6);
 }
+/* Grid items default to min-width:auto, which lets wide tables blow the
+   column out past the viewport; force them shrinkable so the internal
+   .table-scroll wrappers can take over. */
+.crud-section > *, .contact-section > *, .about-grid > *, .home-intro-inner > * { min-width: 0; }
 
 .crud-form-card {
   background: var(--card);
