@@ -8,6 +8,19 @@
   <meta name="theme-color" content="#0A1628" />
   <link rel="icon" href="images/logo.jpeg" />
 
+  <!-- Theme bootstrap: apply saved/system theme before first paint -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('eastcso_theme');
+        if (t !== 'dark' && t !== 'light') {
+          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.classList.add('theme-' + t);
+      } catch (e) { /* no-op */ }
+    })();
+  </script>
+
   <!-- Social sharing -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="EASTCSO – Serving Students Through Students" />
@@ -57,7 +70,9 @@
         <a class="nav-link" data-page="contact" href="#/contact">Contact</a>
       </nav>
 
-      <a class="header-cta" href="#/contact">Join Us</a>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode"><i class="bi bi-moon-stars" aria-hidden="true"></i></button>
+
+      <a class="header-cta" href="#/contact">Contact Us</a>
 
       <!-- Mobile Toggle -->
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav">

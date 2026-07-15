@@ -66,6 +66,57 @@ function render() {
 window.addEventListener('hashchange', render);
 
 /* ============================================================
+   1b. THEME (light / dark)
+   Follows the system preference until the user explicitly
+   chooses via the toggle; the choice is then persisted.
+   A small bootstrap script in <head> applies the class before
+   first paint to avoid a flash.
+   ============================================================ */
+const THEME_KEY = 'eastcso_theme';
+
+function storedTheme() {
+  try {
+    const t = localStorage.getItem(THEME_KEY);
+    return t === 'dark' || t === 'light' ? t : null;
+  } catch (err) { return null; }
+}
+
+function systemTheme() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function applyTheme(theme) {
+  const rootEl = document.documentElement;
+  rootEl.classList.toggle('theme-dark', theme === 'dark');
+  rootEl.classList.toggle('theme-light', theme === 'light');
+
+  const btn = document.getElementById('themeToggle');
+  if (btn) {
+    btn.innerHTML = '';
+    const icon = document.createElement('i');
+    icon.className = 'bi ' + (theme === 'dark' ? 'bi-sun' : 'bi-moon-stars');
+    icon.setAttribute('aria-hidden', 'true');
+    btn.appendChild(icon);
+    btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+}
+
+function initTheme() {
+  applyTheme(storedTheme() || systemTheme());
+
+  document.getElementById('themeToggle')?.addEventListener('click', () => {
+    const next = document.documentElement.classList.contains('theme-dark') ? 'light' : 'dark';
+    try { localStorage.setItem(THEME_KEY, next); } catch (err) { /* private mode */ }
+    applyTheme(next);
+  });
+
+  // Track OS-level changes while the user has not made an explicit choice
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!storedTheme()) applyTheme(e.matches ? 'dark' : 'light');
+  });
+}
+
+/* ============================================================
    2. MOBILE MENU
    ============================================================ */
 function closeMenu() {
@@ -854,6 +905,7 @@ document.addEventListener('DOMContentLoaded', () => {
   announcements = loadStore(LS_ANNOUNCEMENTS, SEED_ANNOUNCEMENTS);
   messages = loadStore(LS_MESSAGES, []);
 
+  initTheme();
   initMenu();
   initSlideshow();
   initGallery();
